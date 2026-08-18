@@ -266,6 +266,28 @@
   .os-nav-item.active, .os-nav-item:hover { background: rgba(255, 255, 255, 0.12); color: var(--text-main); }
   .os-content-pane { flex: 1; padding: 22px; overflow-y: auto; height: 100%; display: flex; flex-direction: column; }
 
+  /* SPREADSHEET TOOLBAR & GRID STYLES */
+  .sheet-ribbon {
+    background: rgba(18, 24, 38, 0.95);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 8px 12px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+    flex-shrink: 0;
+  }
+  .sheet-group { display: flex; align-items: center; gap: 4px; border-right: 1px solid var(--glass-border); padding-right: 8px; margin-right: 2px; }
+  .sheet-formula-bar {
+    display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.6);
+    padding: 6px 12px; border-bottom: 1px solid var(--glass-border); font-family: var(--font-code); font-size: 0.85rem;
+  }
+  .sheet-table-wrap { flex: 1; overflow: auto; background: #0f172a; position: relative; }
+  .sheet-grid { border-collapse: collapse; width: 100%; min-width: 700px; color: #f8fafc; font-size: 0.82rem; }
+  .sheet-grid th, .sheet-grid td { border: 1px solid rgba(255,255,255,0.12); text-align: center; height: 28px; }
+  .sheet-grid th { background: rgba(30, 41, 59, 0.8); font-weight: 700; color: var(--accent); position: sticky; top: 0; z-index: 10; }
+  .sheet-cell-input {
+    width: 100%; height: 100%; background: transparent; border: none; outline: none;
+    color: #f8fafc; font-family: var(--font-ui); padding: 0 6px; font-size: 0.82rem;
+  }
+  .sheet-cell-input:focus { background: rgba(0, 242, 254, 0.15); box-shadow: inset 0 0 0 2px var(--accent); }
+
   /* PAINT STUDIO 30+ TOOLBAR */
   .paint-ribbon {
     background: rgba(18, 24, 38, 0.95);
@@ -381,7 +403,7 @@
     <div style="margin-top:18px; font-family:var(--font-code); font-size:0.85rem; color:var(--text-sub);" id="bootLog">Loading Dynamic Paint Studio & System Utilities...</div>
   </div>
 
-  <!-- 2. SETUP WIZARD (REMOVED WALLPAPER SELECTION) -->
+  <!-- 2. SETUP WIZARD -->
   <div id="setup-screen" class="os-screen hidden">
     <div class="setup-card">
       <div class="setup-sidebar">
@@ -421,7 +443,7 @@
     <div class="top-bar">
       <div class="top-bar-section">
         <div class="brand-logo" onclick="toggleLaunchHub()">ENFROK OS 5.2</div>
-        <div class="top-item" onclick="openWindow('documentCore')">Workspace</div>
+        <div class="top-item" onclick="openWindow('sheetApp')">📊 Spreadsheet</div>
         <div class="top-item" onclick="openWindow('wordApp')">📝 Text Studio</div>
         <div class="top-item" onclick="openWindow('paintApp')">🎨 Paint Studio</div>
       </div>
@@ -437,6 +459,49 @@
     <div class="desktop-area" id="desktopArea" oncontextmenu="openContextMenu(event, null)">
       <div class="desktop-grid" id="desktopGrid"></div>
 
+      <!-- APP 0: SPREADSHEET (FULL ENGINE RESTORED) -->
+      <div class="os-window" id="sheetApp" style="width: 880px; height: 560px; top: 30px; left: 80px;">
+        <div class="window-topbar" onmousedown="dragWindow(event, 'sheetApp')">
+          <div class="window-title">📊 Spreadsheet — <span id="sheetDocTitle" style="color:var(--accent);">Untitled_Sheet.sheet</span></div>
+          <div class="win-controls-pills">
+            <span class="win-pill-btn" onclick="minimizeWindow('sheetApp')">─</span>
+            <span class="win-pill-btn" onclick="toggleFullscreen('sheetApp')">▢</span>
+            <span class="win-pill-btn pill-close" onclick="closeWindow('sheetApp')">✕</span>
+          </div>
+        </div>
+        <div class="window-body">
+          <div class="sheet-ribbon">
+            <div class="sheet-group">
+              <button class="btn-ui btn-accent" style="padding:4px 10px;" onclick="saveSpreadsheet()">💾 Save to Files</button>
+              <button class="btn-ui" style="padding:4px 10px;" onclick="newSpreadsheet()">📄 New Sheet</button>
+              <button class="btn-ui" style="padding:4px 10px;" onclick="exportSheetCSV()">📥 Export CSV</button>
+            </div>
+            <div class="sheet-group">
+              <button class="btn-ui" style="padding:4px 8px;" onclick="applySheetFormat('bold')"><b>B</b></button>
+              <button class="btn-ui" style="padding:4px 8px;" onclick="applySheetFormat('italic')"><i>I</i></button>
+              <input type="color" id="sheetTextColor" onchange="applySheetColor(this.value, 'color')" style="width:24px; height:24px; border:none; background:none; cursor:pointer;" title="Text Color" />
+              <input type="color" id="sheetBgColor" value="#0f172a" onchange="applySheetColor(this.value, 'background')" style="width:24px; height:24px; border:none; background:none; cursor:pointer;" title="Cell Background" />
+            </div>
+            <div class="sheet-group">
+              <button class="btn-ui" style="padding:4px 8px;" onclick="recalcSpreadsheet()">🔄 Recalculate</button>
+            </div>
+          </div>
+
+          <div class="sheet-formula-bar">
+            <span style="color:var(--accent); font-weight:700;" id="sheetActiveCellLabel">A1</span>
+            <span style="color:var(--text-sub);">ƒx</span>
+            <input type="text" class="input-ui" id="sheetFormulaInput" placeholder="Type text or formula (e.g. =SUM(A1:A5) or =A1+B1)..." onkeydown="if(event.key==='Enter') commitSheetFormula()" style="padding:4px 10px; font-size:0.85rem;" />
+          </div>
+
+          <div class="sheet-table-wrap">
+            <table class="sheet-grid" id="sheetGridTable">
+              <thead><tr id="sheetHeaderRow"></tr></thead>
+              <tbody id="sheetBodyRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
       <!-- APP 1: PAINT STUDIO (30+ WORKING BUTTONS) -->
       <div class="os-window" id="paintApp" style="width: 860px; height: 580px; top: 30px; left: 120px;">
         <div class="window-topbar" onmousedown="dragWindow(event, 'paintApp')">
@@ -449,7 +514,6 @@
         </div>
         <div class="window-body">
           <div class="paint-ribbon">
-            <!-- Group 1: Tools (10) -->
             <div class="paint-group">
               <button class="paint-btn active" id="tool-pen" onclick="setPaintTool('pen')" title="1: Brush/Pen">✏️</button>
               <button class="paint-btn" id="tool-eraser" onclick="setPaintTool('eraser')" title="2: Eraser">🧹</button>
@@ -462,14 +526,12 @@
               <button class="paint-btn" id="tool-picker" onclick="setPaintTool('picker')" title="9: Color Eyedropper">🧪</button>
               <button class="paint-btn" id="tool-text" onclick="setPaintTool('text')" title="10: Text Tool">🔤</button>
             </div>
-            <!-- Group 2: Sizes (4) -->
             <div class="paint-group">
               <button class="paint-btn" onclick="setPaintSize(2)" title="11: Small Size (2px)">•</button>
               <button class="paint-btn active" onclick="setPaintSize(5)" title="12: Medium Size (5px)">●</button>
               <button class="paint-btn" onclick="setPaintSize(12)" title="13: Large Size (12px)">⬤</button>
               <button class="paint-btn" onclick="setPaintSize(24)" title="14: XL Size (24px)">🌑</button>
             </div>
-            <!-- Group 3: Color Palette (10 Preset Swatches) -->
             <div class="paint-group">
               <div class="paint-swatch" style="background:#000000;" onclick="setPaintColor('#000000')" title="15: Black"></div>
               <div class="paint-swatch" style="background:#ffffff;" onclick="setPaintColor('#ffffff')" title="16: White"></div>
@@ -482,12 +544,10 @@
               <div class="paint-swatch" style="background:#06b6d4;" onclick="setPaintColor('#06b6d4')" title="23: Cyan"></div>
               <div class="paint-swatch" style="background:#ec4899;" onclick="setPaintColor('#ec4899')" title="24: Magenta"></div>
             </div>
-            <!-- Group 4: Primary & Secondary Pickers (2) -->
             <div class="paint-group">
               <input type="color" id="paintColorMain" value="#00f2fe" onchange="setPaintColor(this.value)" style="width:26px; height:26px; border:none; background:none; cursor:pointer;" title="25: Primary Color Picker" />
               <input type="color" id="paintColorFill" value="#ffffff" style="width:26px; height:26px; border:none; background:none; cursor:pointer;" title="26: Secondary/Fill Color Picker" />
             </div>
-            <!-- Group 5: Canvas Manipulation & Actions (8) -->
             <div class="paint-group">
               <button class="paint-btn" onclick="clearPaintCanvas()" title="27: Clear Canvas">🗑️ Clear</button>
               <button class="paint-btn" onclick="invertPaintCanvas()" title="28: Invert Canvas Colors">☯️ Invert</button>
@@ -586,13 +646,14 @@
           <div class="os-split-layout">
             <div class="os-sidebar">
               <div class="os-nav-item active" onclick="filterFiles('all')">📂 All Storage</div>
+              <div class="os-nav-item" onclick="filterFiles('sheets')">📊 Spreadsheets</div>
               <div class="os-nav-item" onclick="filterFiles('docs')">📄 Documents</div>
               <div class="os-nav-item" onclick="filterFiles('uninstalled')">🗑️ Uninstalled Apps</div>
               <button class="btn-ui btn-accent" style="margin-top:auto;" onclick="createNewFilePrompt()">➕ New Document</button>
             </div>
             <div class="os-content-pane">
               <div style="margin-bottom:12px; font-size:0.85rem; color:var(--text-sub); display:flex; justify-content:space-between; align-items:center;">
-                <span id="filesPaneSubtitle">Click any saved document to edit inside <b>Text Studio</b>:</span>
+                <span id="filesPaneSubtitle">Click any saved document or spreadsheet to open:</span>
                 <button class="btn-ui" onclick="renderFolders()">🔄 Refresh</button>
               </div>
               <div class="files-grid" id="folderView"></div>
@@ -644,7 +705,7 @@ local Engine = {}
 Engine.Version = 5.2
 
 function Engine.Init()
-    print("[ENFROK CORE]: Engine active with 30+ Paint Studio buttons.")
+    print("[ENFROK CORE]: Engine active with Spreadsheet & Paint Studio.")
     return "Status: Optimal"
 end
 
@@ -848,7 +909,7 @@ print(Engine.Init())</textarea>
         </div>
       </div>
 
-      <!-- NEW DESKTOP & START MENU APPS (NOT ON TASKBAR) -->
+      <!-- NEW DESKTOP & START MENU APPS -->
       <!-- APP 15: SYSTEM MONITOR PRO -->
       <div class="os-window" id="sysMonApp" style="width: 580px; height: 420px; top: 70px; left: 210px;">
         <div class="window-topbar" onmousedown="dragWindow(event, 'sysMonApp')">
@@ -949,7 +1010,7 @@ print(Engine.Init())</textarea>
               <div class="os-nav-item" onclick="switchSettingsTab('systemConfigTab', this)">⚙️ OS Configuration</div>
             </div>
             <div class="os-content-pane">
-              <!-- TAB 1: PERSONALIZE (WITH AUTO-CHANGE WALLPAPER INTERVAL) -->
+              <!-- TAB 1: PERSONALIZE -->
               <div class="settings-section active" id="appearanceTab">
                 <h3 style="font-size:1.05rem; font-weight:700;">80+ HD Wallpaper Gallery</h3>
                 
@@ -1005,7 +1066,7 @@ print(Engine.Init())</textarea>
                 </div>
               </div>
 
-              <!-- TAB 3: APP MANAGER & UNINSTALLED APPS -->
+              <!-- TAB 3: APP MANAGER -->
               <div class="settings-section" id="appManagerTab">
                 <h3 style="font-size:1.05rem; font-weight:700;">Installed & Uninstalled Applications</h3>
                 <p style="font-size:0.82rem; color:var(--text-sub);">Re-install any previously removed system applications instantly:</p>
@@ -1055,10 +1116,10 @@ print(Engine.Init())</textarea>
     <!-- Notification Center -->
     <div class="notification-center" id="notificationCenter">
       <h3 style="font-size:1rem; font-weight:700;">Notifications & System Control</h3>
-      <div style="font-size:0.85rem; color:var(--text-sub); border-bottom:1px solid var(--glass-border); padding-bottom:14px;">ENFROK OS 5.2 running with 30+ Paint tools & auto wallpaper slideshow.</div>
+      <div style="font-size:0.85rem; color:var(--text-sub); border-bottom:1px solid var(--glass-border); padding-bottom:14px;">ENFROK OS 5.2 running with Spreadsheet engine, 30+ Paint tools & auto wallpaper slideshow.</div>
     </div>
 
-    <!-- TASKBAR (DOCK - STRICTLY ORIGINAL APPS ONLY) -->
+    <!-- TASKBAR (DOCK) -->
     <div class="dock-wrapper" id="dockWrapper">
       <button class="dock-launcher-btn" onclick="toggleLaunchHub()" title="Open Glass Start Menu">E</button>
       <div class="dock-divider"></div>
@@ -1092,50 +1153,21 @@ print(Engine.Init())</textarea>
   </div>
 
 <script>
-  // 80+ HD WALLPAPERS (DEFAULT = SCREENSHOT LANDSCAPE)
+  // 80+ HD WALLPAPERS
   const WALLPAPERS = [
-    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1920', // DEFAULT
+    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1920',
     'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600',
     'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600',
     'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600',
     'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600',
     'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=600',
     'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600',
-    'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=600',
-    'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=600',
-    'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=600',
-    'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=600',
-    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=600',
-    'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=600',
-    'https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=80&w=600',
-    'https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?q=80&w=600',
-    'https://images.unsplash.com/photo-1502134249126-9f3755a50d78?q=80&w=600',
-    'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600',
-    'https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=600',
-    'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80&w=600',
-    'https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=600',
-    'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600',
-    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=600',
-    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=600',
-    'https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?q=80&w=600',
-    'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=600',
-    'https://images.unsplash.com/photo-1499346030926-9a72daac6c63?q=80&w=600',
-    'https://images.unsplash.com/photo-1439853949127-fa647821eba0?q=80&w=600',
-    'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?q=80&w=600',
-    'https://images.unsplash.com/photo-1518173946687-a4c8a383392e?q=80&w=600',
-    'https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?q=80&w=600',
-    'https://images.unsplash.com/photo-1506765515384-028b60a970df?q=80&w=600',
-    'https://images.unsplash.com/photo-1433086966358-54859d0ed716?q=80&w=600',
-    'https://images.unsplash.com/photo-1505765050516-f72868f31727?q=80&w=600',
-    'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?q=80&w=600',
-    'https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=600',
-    'https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=600',
-    'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=600',
-    'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=600'
+    'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=600'
   ];
 
-  // PRIMARY APPS IN TASKBAR
+  // PRIMARY APPS IN TASKBAR (DOCK)
   const DOCK_APPS = [
+    { id: 'sheetApp', name: 'Spreadsheet', icon: '📊' },
     { id: 'wordApp', name: 'Text Studio', icon: '📄' },
     { id: 'paintApp', name: 'Paint Board', icon: '🎨' },
     { id: 'documentCore', name: 'Files', icon: '📁' },
@@ -1153,7 +1185,7 @@ print(Engine.Init())</textarea>
     { id: 'settingsApp', name: 'Settings', icon: '⚙️' }
   ];
 
-  // EXTRA APPS ON DESKTOP & START MENU (NOT ON TASKBAR)
+  // EXTRA APPS ON DESKTOP & START MENU
   const EXTRA_APPS = [
     { id: 'sysMonApp', name: 'System Monitor', icon: '📊' },
     { id: 'asciiApp', name: 'ASCII Studio', icon: '🔡' },
@@ -1166,7 +1198,12 @@ print(Engine.Init())</textarea>
   let winZIndex = 200;
   let currentRam = 3.2;
   let audioMuted = false;
+  let activeSheetFilename = "Untitled_Sheet.sheet";
   let activeDocFilename = "Untitled_Document.doc";
+  let sheetCols = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+  let sheetRowsCount = 20;
+  let sheetData = {};
+  let activeCellId = "A1";
   let autoWpIntervalTimer = null;
   let currentWpIndex = 0;
 
@@ -1179,23 +1216,24 @@ print(Engine.Init())</textarea>
     opacityVal: 88,
     uninstalledApps: [],
     savedFiles: [
-      { name: 'Welcome_Guide.doc', content: '<h2>Welcome to ENFROK Text Studio</h2><p>This is your saved document in Files storage.</p>' }
+      { name: 'Monthly_Budget.sheet', data: { A1: 'Income', B1: '5000', A2: 'Rent', B2: '1200', A3: 'Total', B3: '=SUM(B1:B2)' } },
+      { name: 'Welcome_Guide.doc', content: '<h2>Welcome to ENFROK OS 5.2</h2><p>This is your saved document in Files storage.</p>' }
     ]
   };
 
   function loadData() {
-    const saved = localStorage.getItem('enfrok_os_v52_final');
+    const saved = localStorage.getItem('enfrok_os_v52_fullsuite');
     if (saved) {
       try { osData = JSON.parse(saved); } catch(e) {}
     }
   }
 
   function saveData() {
-    localStorage.setItem('enfrok_os_v52_final', JSON.stringify(osData));
+    localStorage.setItem('enfrok_os_v52_fullsuite', JSON.stringify(osData));
   }
 
   function eraseSystemData() {
-    localStorage.removeItem('enfrok_os_v52_final');
+    localStorage.removeItem('enfrok_os_v52_fullsuite');
     location.reload();
   }
 
@@ -1203,6 +1241,7 @@ print(Engine.Init())</textarea>
   window.addEventListener('DOMContentLoaded', () => {
     loadData();
     populateWallpapers();
+    initSpreadsheetGrid();
 
     if (osData.installed) {
       setWallpaper(osData.wallpaper);
@@ -1225,9 +1264,10 @@ print(Engine.Init())</textarea>
 
   function populateWallpapers() {
     const settingsGrid = document.getElementById('settingsWpGrid');
+    if (!settingsGrid) return;
     settingsGrid.innerHTML = '';
 
-    WALLPAPERS.forEach((wp, idx) => {
+    WALLPAPERS.forEach((wp) => {
       const card2 = document.createElement('div');
       card2.className = `wp-thumb ${osData.wallpaper === wp ? 'active' : ''}`;
       card2.style.backgroundImage = `url('${wp}')`;
@@ -1249,8 +1289,6 @@ print(Engine.Init())</textarea>
     if (val === '5s') ms = 5000;
     else if (val === '10s') ms = 10000;
     else if (val === '1m') ms = 60000;
-    else if (val === '5m') ms = 300000;
-    else if (val === '10m') ms = 600000;
 
     if (ms > 0) {
       autoWpIntervalTimer = setInterval(() => {
@@ -1316,7 +1354,6 @@ print(Engine.Init())</textarea>
     document.getElementById('hubUsername').textContent = uName;
     document.getElementById('hubAvatarLetter').textContent = uName.charAt(0).toUpperCase();
 
-    // ALL APPS ON DESKTOP & START MENU
     activeApps.forEach(app => {
       desktopGrid.innerHTML += `
         <div class="d-icon" onclick="openWindow('${app.id}')" oncontextmenu="openContextMenu(event, '${app.id}')" onmousedown="selectDesktopIcon(this)">
@@ -1333,7 +1370,6 @@ print(Engine.Init())</textarea>
       `;
     });
 
-    // STRICTLY PRIMARY DOCK APPS ONLY IN TASKBAR
     DOCK_APPS.filter(a => !osData.uninstalledApps.includes(a.id)).forEach(app => {
       const dockItem = document.createElement('div');
       dockItem.className = 'dock-item';
@@ -1369,6 +1405,7 @@ print(Engine.Init())</textarea>
 
   function renderUninstalledManager() {
     const container = document.getElementById('uninstalledAppsContainer');
+    if(!container) return;
     container.innerHTML = '';
 
     if (osData.uninstalledApps.length === 0) {
@@ -1474,7 +1511,133 @@ print(Engine.Init())</textarea>
     };
   }
 
-  /* PAINT STUDIO PRO - 30+ WORKING ENGINE FEATURES */
+  /* SPREADSHEET ENGINE */
+  function initSpreadsheetGrid() {
+    const headerRow = document.getElementById('sheetHeaderRow');
+    const bodyRows = document.getElementById('sheetBodyRows');
+    if (!headerRow || !bodyRows) return;
+    headerRow.innerHTML = '<th style="width:40px;">#</th>';
+    bodyRows.innerHTML = '';
+
+    sheetCols.forEach(col => headerRow.innerHTML += `<th>${col}</th>`);
+
+    for (let r = 1; r <= sheetRowsCount; r++) {
+      let tr = document.createElement('tr');
+      tr.innerHTML = `<td style="font-weight:700; background:rgba(30,41,59,0.8);">${r}</td>`;
+      sheetCols.forEach(col => {
+        let cellId = `${col}${r}`;
+        tr.innerHTML += `
+          <td>
+            <input type="text" class="sheet-cell-input" id="cell-${cellId}" 
+                   onfocus="selectSheetCell('${cellId}')" 
+                   onchange="updateSheetCellRaw('${cellId}', this.value)" />
+          </td>
+        `;
+      });
+      bodyRows.appendChild(tr);
+    }
+  }
+
+  function selectSheetCell(id) {
+    activeCellId = id;
+    document.getElementById('sheetActiveCellLabel').textContent = id;
+    document.getElementById('sheetFormulaInput').value = sheetData[id] || '';
+  }
+
+  function updateSheetCellRaw(id, val) {
+    sheetData[id] = val;
+    recalcSpreadsheet();
+  }
+
+  function commitSheetFormula() {
+    sheetData[activeCellId] = document.getElementById('sheetFormulaInput').value;
+    recalcSpreadsheet();
+  }
+
+  function recalcSpreadsheet() {
+    sheetCols.forEach(col => {
+      for (let r = 1; r <= sheetRowsCount; r++) {
+        let cellId = `${col}${r}`;
+        let input = document.getElementById(`cell-${cellId}`);
+        if (!input) return;
+        let raw = sheetData[cellId] || '';
+
+        if (raw.startsWith('=')) input.value = evaluateSheetFormula(raw.substring(1));
+        else input.value = raw;
+      }
+    });
+  }
+
+  function evaluateSheetFormula(expr) {
+    try {
+      let uppercase = expr.toUpperCase();
+      if (uppercase.startsWith('SUM(')) {
+        let rangeStr = uppercase.match(/\((.*?)\)/)[1];
+        let [start, end] = rangeStr.split(':');
+        let startRow = parseInt(start.substring(1)), endRow = parseInt(end.substring(1));
+        let col = start[0], sum = 0;
+        for (let r = startRow; r <= endRow; r++) sum += (parseFloat(sheetData[`${col}${r}`]) || 0);
+        return sum;
+      }
+      if (uppercase.startsWith('AVERAGE(')) {
+        let rangeStr = uppercase.match(/\((.*?)\)/)[1];
+        let [start, end] = rangeStr.split(':');
+        let startRow = parseInt(start.substring(1)), endRow = parseInt(end.substring(1));
+        let col = start[0], sum = 0, count = 0;
+        for (let r = startRow; r <= endRow; r++) { sum += (parseFloat(sheetData[`${col}${r}`]) || 0); count++; }
+        return count ? (sum / count).toFixed(2) : 0;
+      }
+      return eval(expr.replace(/[A-H][0-9]+/gi, (m) => parseFloat(sheetData[m.toUpperCase()]) || 0));
+    } catch(e) { return "#ERROR"; }
+  }
+
+  function saveSpreadsheet() {
+    const name = prompt("Spreadsheet Name:", activeSheetFilename);
+    if (!name) return;
+    activeSheetFilename = name.endsWith('.sheet') ? name : name + '.sheet';
+    document.getElementById('sheetDocTitle').textContent = activeSheetFilename;
+
+    const idx = osData.savedFiles.findIndex(f => f.name === activeSheetFilename);
+    if (idx >= 0) osData.savedFiles[idx].data = { ...sheetData };
+    else osData.savedFiles.push({ name: activeSheetFilename, data: { ...sheetData } });
+
+    saveData();
+    renderFolders();
+    alert(`Saved '${activeSheetFilename}' in Files!`);
+  }
+
+  function openSpreadsheetFile(fileName) {
+    const file = osData.savedFiles.find(f => f.name === fileName);
+    if (file && file.data) {
+      sheetData = { ...file.data };
+      activeSheetFilename = file.name;
+      document.getElementById('sheetDocTitle').textContent = file.name;
+      recalcSpreadsheet();
+      openWindow('sheetApp');
+    }
+  }
+
+  function newSpreadsheet() {
+    sheetData = {};
+    activeSheetFilename = "Untitled_Sheet.sheet";
+    document.getElementById('sheetDocTitle').textContent = activeSheetFilename;
+    recalcSpreadsheet();
+  }
+
+  function exportSheetCSV() {
+    let csv = "";
+    for (let r = 1; r <= sheetRowsCount; r++) {
+      let rowVals = sheetCols.map(c => document.getElementById(`cell-${c}${r}`).value || '');
+      csv += rowVals.join(",") + "\n";
+    }
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = activeSheetFilename.replace('.sheet', '.csv');
+    link.click();
+  }
+
+  /* PAINT STUDIO PRO ENGINE */
   let paintTool = 'pen';
   let paintSize = 5;
   let paintColor = '#00f2fe';
@@ -1765,28 +1928,36 @@ print(Engine.Init())</textarea>
   // FILES APP MANAGER
   function renderFolders() {
     const view = document.getElementById('folderView');
+    if(!view) return;
     view.innerHTML = '';
 
     osData.savedFiles.forEach(f => {
+      const isSheet = f.name.endsWith('.sheet');
       view.innerHTML += `
-        <div class="file-item" onclick="openDocInWord('${f.name}')">
-          <span style="font-size:2.2rem;">📄</span>
+        <div class="file-item" onclick="${isSheet ? `openSpreadsheetFile('${f.name}')` : `openDocInWord('${f.name}')`}">
+          <span style="font-size:2.2rem;">${isSheet ? '📊' : '📄'}</span>
           <span style="word-break:break-all;">${f.name}</span>
         </div>
       `;
     });
-
-    view.innerHTML += `
-      <div class="file-item"><span style="font-size:2.2rem;">📁</span><span>Kernel_Core</span></div>
-      <div class="file-item"><span style="font-size:2.2rem;">📁</span><span>Luau_Modules</span></div>
-    `;
   }
 
   function filterFiles(type) {
     const view = document.getElementById('folderView');
     const sub = document.getElementById('filesPaneSubtitle');
 
-    if (type === 'uninstalled') {
+    if (type === 'sheets') {
+      sub.textContent = "Saved Spreadsheet Files:";
+      view.innerHTML = '';
+      osData.savedFiles.filter(f => f.name.endsWith('.sheet')).forEach(f => {
+        view.innerHTML += `
+          <div class="file-item" onclick="openSpreadsheetFile('${f.name}')">
+            <span style="font-size:2.2rem;">📊</span>
+            <span>${f.name}</span>
+          </div>
+        `;
+      });
+    } else if (type === 'uninstalled') {
       sub.textContent = "Uninstalled System Applications:";
       view.innerHTML = '';
       if (osData.uninstalledApps.length === 0) {
@@ -1805,7 +1976,7 @@ print(Engine.Init())</textarea>
         }
       });
     } else {
-      sub.innerHTML = `Click any saved document to edit inside <b>Text Studio</b>:`;
+      sub.innerHTML = `Click any saved document or spreadsheet to open:`;
       renderFolders();
     }
   }
@@ -1826,16 +1997,16 @@ print(Engine.Init())</textarea>
     openWindow('wordApp');
   }
 
-  // OTHER UTILITIES
+  // UTILITIES
   function generateAsciiArt() {
     const val = document.getElementById('asciiInput').value || "ENFROK";
     document.getElementById('asciiOutput').value = `
-  ______ _   _ ______ _____   ____  _  __
- |  ____| \\ | |  ____|  __ \\ / __ \\| |/ /
- | |__  |  \\| | |__  | |__) | |  | | ' / 
+  ______ _   _ ______ _____    ____  _  __
+ |  ____| \ | |  ____|  __ \  / __ \| |/ /
+ | |__  |  \| | |__  | |__) | |  | | ' / 
  |  __| | . \` |  __| |  _  /| |  | |  <  
- | |____| |\\  | |    | | \\ \\| |__| | . \\ 
- |______|_| \\_|_|    |_|  \\_\\\\____/|_|\\_\\  [${val}]
+ | |____| |\  | |    | | \ \| |__| | . \ 
+ |______|_| \_|_|    |_|  \_\\____/|_|\_\  [${val}]
     `;
   }
 
@@ -1915,9 +2086,10 @@ print(Engine.Init())</textarea>
       `;
     } else {
       menu.innerHTML = `
-        <div class="context-item" onclick="openWindow('wordApp')">📄 New Text Document</div>
+        <div class="context-item" onclick="openWindow('sheetApp')">📊 New Spreadsheet</div>
+        <div class="context-item" onclick="openWindow('wordApp')">📄 New Document</div>
         <div class="context-item" onclick="openWindow('documentCore')">📁 Open Files</div>
-        <div class="context-item" onclick="openWindow('settingsApp')">⚙️ Change Settings</div>
+        <div class="context-item" onclick="openWindow('settingsApp')">⚙️ Settings</div>
         <div class="context-item" onclick="location.reload()">🔄 Refresh OS</div>
       `;
     }
@@ -2027,7 +2199,6 @@ print(Engine.Init())</textarea>
 
     document.getElementById('sysRam').textContent = `${currentRam.toFixed(1)} / 12.0 GB RAM`;
 
-    // SYSTEM MONITOR UPDATE
     const cVal = Math.floor(10 + Math.random() * 25);
     const gVal = Math.floor(20 + Math.random() * 20);
     if (document.getElementById('monCpuVal')) {
