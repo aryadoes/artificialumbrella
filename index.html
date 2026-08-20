@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ENFROK OS 5.2</title>
+<title>Enfrok OS 5.2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --accent: #00f2fe;
-    --accent-purple: #9d4edd;
-    --accent-glow: rgba(0, 242, 254, 0.4);
+    --accent: #ffd700;
+    --accent-purple: #ffffff;
+    --accent-glow: rgba(255, 215, 0, 0.4);
     --bg-wallpaper: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1920&auto=format&fit=crop');
     
-    --glass-blur-val: 35px;
-    --glass-opacity-val: 0.88;
+    --glass-blur-val: 38px;
+    --glass-opacity-val: 0.62;
     --glass-blur: blur(var(--glass-blur-val));
     
     --glass-topbar: rgba(10, 14, 24, 0.65);
@@ -25,7 +25,7 @@
     --glass-menu: rgba(14, 18, 30, 0.95);
     --glass-dialog: rgba(16, 20, 34, 0.92);
     --glass-border: rgba(255, 255, 255, 0.16);
-    --glass-border-focused: rgba(0, 242, 254, 0.6);
+    --glass-border-focused: rgba(255, 215, 0, 0.6);
     --glass-shadow: 0 30px 80px rgba(0, 0, 0, 0.85);
     
     --text-main: #f8fafc;
@@ -60,7 +60,7 @@
     transition: background-color 0.15s, border-color 0.15s;
   }
   .btn-ui:hover { background: rgba(255, 255, 255, 0.18); border-color: var(--accent); }
-  .btn-ui.active { background: rgba(0, 242, 254, 0.25); border-color: var(--accent); }
+  .btn-ui.active { background: rgba(255, 215, 0, 0.25); border-color: var(--accent); }
 
   .btn-accent {
     background: linear-gradient(135deg, var(--accent), var(--accent-purple));
@@ -116,6 +116,7 @@
     width: 100%; height: 42px; background: var(--glass-topbar); backdrop-filter: var(--glass-blur);
     border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between;
     padding: 0 20px; z-index: 8000;
+    transition: transform 0.4s var(--anim-curve), opacity 0.4s var(--anim-curve);
   }
   .top-bar-section { display: flex; align-items: center; gap: 18px; }
   .brand-logo { font-weight: 800; font-size: 0.92rem; display: flex; align-items: center; gap: 10px; cursor: pointer; letter-spacing: 0.08em; }
@@ -135,7 +136,7 @@
     padding: 8px; border-radius: 14px; border: 1px solid transparent; font-weight: 500;
   }
   .d-icon:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.25); }
-  .d-icon.selected { background: rgba(0, 242, 254, 0.2); border-color: var(--accent); }
+  .d-icon.selected { background: rgba(255, 215, 0, 0.2); border-color: var(--accent); }
   .d-icon-box { font-size: 2.3rem; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5)); }
 
   /* TASKBAR (DOCK) */
@@ -145,7 +146,7 @@
     border: 1px solid var(--glass-border); border-radius: var(--radius-dock);
     padding: 8px 16px; display: flex; align-items: center; gap: 10px; z-index: 8500;
     box-shadow: var(--glass-shadow);
-    transition: none !important; animation: none !important;
+    transition: transform 0.4s var(--anim-curve), opacity 0.4s var(--anim-curve) !important;
   }
   .dock-launcher-btn {
     width: 48px; height: 48px; border-radius: 16px;
@@ -153,9 +154,9 @@
     border: none; display: flex; align-items: center; justify-content: center;
     font-size: 1.4rem; font-weight: 800; color: #030508; cursor: pointer;
     box-shadow: 0 0 20px var(--accent-glow);
-    transition: none !important; animation: none !important; transform: none !important;
+    transition: transform 0.2s var(--anim-curve);
   }
-  .dock-launcher-btn:hover { transform: none !important; }
+  .dock-launcher-btn:hover { transform: scale(1.05); }
 
   .dock-divider { width: 1px; height: 28px; background: var(--glass-border); margin: 0 2px; }
 
@@ -163,9 +164,9 @@
     width: 46px; height: 46px; border-radius: 14px; background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center;
     font-size: 1.4rem; cursor: pointer; position: relative;
-    transition: none !important; animation: none !important; transform: none !important;
+    transition: transform 0.2s var(--anim-curve), background-color 0.2s, border-color 0.2s;
   }
-  .dock-item:hover { border-color: var(--accent); background: rgba(255,255,255,0.18); transform: none !important; }
+  .dock-item:hover { border-color: var(--accent); background: rgba(255,255,255,0.18); transform: translateY(-4px); }
   .dock-item.active::after {
     content: ''; position: absolute; bottom: -5px; width: 6px; height: 6px; border-radius: 50%;
     background: var(--accent); box-shadow: 0 0 10px var(--accent);
@@ -229,13 +230,19 @@
     box-shadow: var(--glass-shadow); display: flex; flex-direction: column; overflow: hidden;
     min-width: 520px; min-height: 360px;
     opacity: 0; pointer-events: none; transform: scale(0.92) translateY(15px);
-    transition: opacity 0.25s var(--anim-curve), transform 0.25s var(--anim-curve), border-color 0.2s ease;
+    transition: top 0.35s var(--anim-curve), left 0.35s var(--anim-curve), width 0.35s var(--anim-curve), height 0.35s var(--anim-curve), border-radius 0.35s var(--anim-curve), opacity 0.25s var(--anim-curve), transform 0.25s var(--anim-curve), border-color 0.2s ease;
+  }
+  .os-window.dragging {
+    transition: none !important;
   }
   .os-window.open-active { opacity: 1; pointer-events: auto; transform: scale(1) translateY(0); }
   .os-window.unfocused { background: var(--glass-window-unfocused); border-color: rgba(255,255,255,0.08); }
   .os-window.focused { border-color: var(--glass-border-focused); box-shadow: 0 35px 90px rgba(0,0,0,0.85); }
   .os-window.minimized { opacity: 0 !important; pointer-events: none !important; transform: scale(0.85) translateY(40px) !important; }
-  .os-window.fullscreen { top: 42px !important; left: 0 !important; width: 100% !important; height: calc(100% - 42px) !important; border-radius: 0; }
+  .os-window.fullscreen { top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; border-radius: 0 !important; z-index: 99999 !important; }
+
+  body.has-fullscreen-app .top-bar { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+  body.has-fullscreen-app .dock-wrapper { transform: translateX(-50%) translateY(120px); opacity: 0; pointer-events: none; }
 
   .window-topbar {
     height: 44px; background: rgba(255,255,255,0.04); border-bottom: 1px solid var(--glass-border);
@@ -286,9 +293,9 @@
     width: 100%; height: 100%; background: transparent; border: none; outline: none;
     color: #f8fafc; font-family: var(--font-ui); padding: 0 6px; font-size: 0.82rem;
   }
-  .sheet-cell-input:focus { background: rgba(0, 242, 254, 0.15); box-shadow: inset 0 0 0 2px var(--accent); }
+  .sheet-cell-input:focus { background: rgba(255, 215, 0, 0.15); box-shadow: inset 0 0 0 2px var(--accent); }
 
-  /* PAINT STUDIO 30+ TOOLBAR */
+  /* PAINT STUDIO TOOLBAR */
   .paint-ribbon {
     background: rgba(18, 24, 38, 0.95);
     border-bottom: 1px solid var(--glass-border);
@@ -302,7 +309,7 @@
     display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
   }
   .paint-btn:hover { background: rgba(255,255,255,0.18); border-color: var(--accent); }
-  .paint-btn.active { background: rgba(0, 242, 254, 0.25); border-color: var(--accent); color: var(--accent); }
+  .paint-btn.active { background: rgba(255, 215, 0, 0.25); border-color: var(--accent); color: var(--accent); }
   .paint-swatch { width: 22px; height: 22px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; }
 
   /* TEXT STUDIO TOOLBAR */
@@ -382,16 +389,6 @@
   .stage-crowd { position: absolute; bottom: 0; width: 100%; height: 90px; background: repeating-linear-gradient(90deg, #111, #111 10px, #222 10px, #222 20px); opacity: 0.85; }
 
   .lucky-box { width: 130px; height: 130px; background: linear-gradient(135deg, #f59e0b, #ef4444); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 4rem; cursor: pointer; box-shadow: 0 0 35px rgba(245, 158, 11, 0.5); }
-
-  .search-overlay {
-    position: absolute; top: 12%; left: 50%; transform: translateX(-50%) translateY(-10px) scale(0.96);
-    width: 580px; background: var(--glass-dialog); backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-border); border-radius: 22px; padding: 18px;
-    box-shadow: var(--glass-shadow); z-index: 9500; display: flex; flex-direction: column;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.2s var(--anim-curve), transform 0.2s var(--anim-curve);
-  }
-  .search-overlay.open { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0) scale(1); }
 </style>
 </head>
 <body>
@@ -399,8 +396,8 @@
   <!-- 1. BOOT SCREEN -->
   <div id="boot-screen" class="os-screen">
     <div class="boot-logo-orb">E</div>
-    <h1 style="font-family:var(--font-ui); font-size:2.2rem; font-weight:800; margin-top:18px; letter-spacing:0.05em;">ENFROK OS 5.2</h1>
-    <div style="margin-top:18px; font-family:var(--font-code); font-size:0.85rem; color:var(--text-sub);" id="bootLog">Loading Dynamic Paint Studio & System Utilities...</div>
+    <h1 style="font-family:var(--font-ui); font-size:2.2rem; font-weight:800; margin-top:18px; letter-spacing:0.05em;">Enfrok OS 5.2</h1>
+    <div style="margin-top:18px; font-family:var(--font-code); font-size:0.85rem; color:var(--text-sub);" id="bootLog">Loading System Utilities...</div>
   </div>
 
   <!-- 2. SETUP WIZARD -->
@@ -412,8 +409,8 @@
       </div>
       <div class="setup-main">
         <div class="setup-page active" id="page1">
-          <h2>Welcome to ENFROK OS 5.2</h2>
-          <p>Your web. Your workspace. Your OS. Setup your administrative environment.</p>
+          <h2>Welcome to Enfrok OS 5.2</h2>
+          <p>Your web workspace. Setup your administrative environment.</p>
           <div style="margin-top:10px;">
             <label style="font-size:0.85rem; color:var(--text-sub);">Administrator Username</label>
             <input type="text" class="input-ui" id="setupUsername" value="Developer" style="margin-top:8px;" />
@@ -442,14 +439,13 @@
     <!-- Top System Bar -->
     <div class="top-bar">
       <div class="top-bar-section">
-        <div class="brand-logo" onclick="toggleLaunchHub()">ENFROK OS 5.2</div>
+        <div class="brand-logo" onclick="toggleLaunchHub()">Enfrok</div>
         <div class="top-item" onclick="openWindow('sheetApp')">📊 Spreadsheet</div>
-        <div class="top-item" onclick="openWindow('wordApp')">📝 Text Studio</div>
+        <div class="top-item" onclick="openWindow('wordApp')">📄 Text Studio</div>
         <div class="top-item" onclick="openWindow('paintApp')">🎨 Paint Studio</div>
       </div>
       <div class="top-bar-section">
-        <div class="top-item" onclick="toggleSearch()">🔍 Search</div>
-        <div class="top-item" id="sysRam">3.2 / 12 GB RAM</div>
+        <div class="top-item" id="sysRam">0 / 12 GB RAM</div>
         <div class="top-item" id="sysAudioMute" onclick="toggleMuteAudio()">🔊 Audio</div>
         <div class="top-item" onclick="toggleNotifications()">🔔 <span id="sysClock">12:00 PM</span></div>
       </div>
@@ -459,7 +455,7 @@
     <div class="desktop-area" id="desktopArea" oncontextmenu="openContextMenu(event, null)">
       <div class="desktop-grid" id="desktopGrid"></div>
 
-      <!-- APP 0: SPREADSHEET (FULL ENGINE RESTORED) -->
+      <!-- APP 0: SPREADSHEET -->
       <div class="os-window" id="sheetApp" style="width: 880px; height: 560px; top: 30px; left: 80px;">
         <div class="window-topbar" onmousedown="dragWindow(event, 'sheetApp')">
           <div class="window-title">📊 Spreadsheet — <span id="sheetDocTitle" style="color:var(--accent);">Untitled_Sheet.sheet</span></div>
@@ -502,7 +498,7 @@
         </div>
       </div>
 
-      <!-- APP 1: PAINT STUDIO (30+ WORKING BUTTONS) -->
+      <!-- APP 1: PAINT STUDIO -->
       <div class="os-window" id="paintApp" style="width: 860px; height: 580px; top: 30px; left: 120px;">
         <div class="window-topbar" onmousedown="dragWindow(event, 'paintApp')">
           <div class="window-title">🎨 Paint Studio Pro</div>
@@ -545,7 +541,7 @@
               <div class="paint-swatch" style="background:#ec4899;" onclick="setPaintColor('#ec4899')" title="24: Magenta"></div>
             </div>
             <div class="paint-group">
-              <input type="color" id="paintColorMain" value="#00f2fe" onchange="setPaintColor(this.value)" style="width:26px; height:26px; border:none; background:none; cursor:pointer;" title="25: Primary Color Picker" />
+              <input type="color" id="paintColorMain" value="#ffd700" onchange="setPaintColor(this.value)" style="width:26px; height:26px; border:none; background:none; cursor:pointer;" title="25: Primary Color Picker" />
               <input type="color" id="paintColorFill" value="#ffffff" style="width:26px; height:26px; border:none; background:none; cursor:pointer;" title="26: Secondary/Fill Color Picker" />
             </div>
             <div class="paint-group">
@@ -620,14 +616,14 @@
 
           <div class="word-editor-page">
             <div class="word-document-paper" id="wordPaper" contenteditable="true" oninput="updateWordStats()" spellcheck="true">
-              <h2>Welcome to ENFROK Text Studio</h2>
-              <p>This is your built-in rich text document editor in <b>ENFROK OS 5.2</b>. Easily format text, insert tables or images, and save documents directly to <b>Files</b>.</p>
+              <h2>Welcome to Enfrok Text Studio</h2>
+              <p>This is your built-in rich text document editor in <b>Enfrok OS 5.2</b>. Easily format text, insert tables or images, and save documents directly to <b>Files</b>.</p>
             </div>
           </div>
 
           <div class="word-statusbar">
             <div>Page 1 of 1 &nbsp;|&nbsp; <span id="wordDocWords">28 words</span> &nbsp;|&nbsp; <span id="wordDocChars">180 characters</span></div>
-            <div>Reading Time: <span id="wordDocTime">~1 min</span> &nbsp;|&nbsp; ENFROK Text Engine v5.2</div>
+            <div>Reading Time: <span id="wordDocTime">~1 min</span> &nbsp;|&nbsp; Enfrok Text Engine v5.2</div>
           </div>
         </div>
       </div>
@@ -635,11 +631,11 @@
       <!-- APP 3: FILES / ROOT STORAGE -->
       <div class="os-window" id="documentCore" style="width: 820px; height: 520px; top: 40px; left: 120px;">
         <div class="window-topbar" onmousedown="dragWindow(event, 'documentCore')">
-          <div class="window-title">📁 Files — Root Storage</div>
+          <div class="window-title">📁 Document — Root Storage</div>
           <div class="win-controls-pills">
             <span class="win-pill-btn" onclick="minimizeWindow('documentCore')">─</span>
             <span class="win-pill-btn" onclick="toggleFullscreen('documentCore')">▢</span>
-            <span class="win-pill-btn pill-close" style="cursor:not-allowed; opacity:0.4;">✕</span>
+            <span class="win-pill-btn pill-close" onclick="closeWindow('documentCore')">✕</span>
           </div>
         </div>
         <div class="window-body">
@@ -674,7 +670,7 @@
         </div>
         <div class="window-body">
           <div class="term-body" id="termContainer">
-            <div class="term-output" id="termOutput">ENFROK OS Command Console v5.2
+            <div class="term-output" id="termOutput">Enfrok OS Command Console v5.2
 Type 'help' to view available system commands.</div>
             <div class="term-row">
               <span style="color:var(--accent); font-weight:600;">enfrok@root:~$</span>
@@ -700,7 +696,7 @@ Type 'help' to view available system commands.</div>
               <button class="btn-ui btn-accent" style="padding:5px 14px; font-size:0.8rem;" onclick="runCode()">▶ Run Script</button>
               <span style="font-size:0.82rem; color:var(--text-sub); align-self:center;">Script_Main.luau</span>
             </div>
-            <textarea class="code-area" id="codeInput">-- ENFROK OS Luau Environment
+            <textarea class="code-area" id="codeInput">-- Enfrok OS Luau Environment
 local Engine = {}
 Engine.Version = 5.2
 
@@ -884,11 +880,11 @@ print(Engine.Init())</textarea>
         </div>
         <div class="window-body">
           <div class="stage-canvas" id="stageCanvas">
-            <div class="laser-beam" style="left:20%; background:#00f2fe;"></div>
-            <div class="laser-beam" style="left:50%; background:#9d4edd; animation-delay:0.5s;"></div>
-            <div class="laser-beam" style="left:80%; background:#ff007f; animation-delay:1s;"></div>
+            <div class="laser-beam" style="left:20%; background:#ffd700;"></div>
+            <div class="laser-beam" style="left:50%; background:#ffffff; animation-delay:0.5s;"></div>
+            <div class="laser-beam" style="left:80%; background:#ffd700; animation-delay:1s;"></div>
             <div style="font-size:3.5rem; z-index:10;">🎤 🎧 🎸</div>
-            <div style="margin-top:16px; font-weight:700; font-size:1.15rem; color:#fff; z-index:10;" id="concertStatus">Live Concert Light Show Active</div>
+            <div style="margin-top:16px; font-weight:700; font-size:1.15rem; color:#fff; z-index:10;" id="concertStatus">RappingConcert Stage Active</div>
             <div class="stage-crowd"></div>
           </div>
         </div>
@@ -906,39 +902,6 @@ print(Engine.Init())</textarea>
         <div class="window-body" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; padding:24px;">
           <div class="lucky-box" onclick="openLuckyBlock()" id="luckyBox">❓</div>
           <div style="font-weight:700; font-size:1.15rem; text-align:center;" id="luckyResult">Click the block to test your luck!</div>
-        </div>
-      </div>
-
-      <!-- NEW DESKTOP & START MENU APPS -->
-      <!-- APP 15: SYSTEM MONITOR PRO -->
-      <div class="os-window" id="sysMonApp" style="width: 580px; height: 420px; top: 70px; left: 210px;">
-        <div class="window-topbar" onmousedown="dragWindow(event, 'sysMonApp')">
-          <div class="window-title">📊 System Monitor Pro</div>
-          <div class="win-controls-pills">
-            <span class="win-pill-btn" onclick="minimizeWindow('sysMonApp')">─</span>
-            <span class="win-pill-btn pill-close" onclick="closeWindow('sysMonApp')">✕</span>
-          </div>
-        </div>
-        <div class="window-body" style="padding:20px; display:flex; flex-direction:column; gap:16px;">
-          <div>
-            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px;">
-              <span>CPU Threads</span><span id="monCpuVal">14%</span>
-            </div>
-            <div style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:99px; overflow:hidden;">
-              <div id="monCpuBar" style="width:14%; height:100%; background:var(--accent);"></div>
-            </div>
-          </div>
-          <div>
-            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:6px;">
-              <span>GPU Memory</span><span id="monGpuVal">28%</span>
-            </div>
-            <div style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:99px; overflow:hidden;">
-              <div id="monGpuBar" style="width:28%; height:100%; background:var(--accent-purple);"></div>
-            </div>
-          </div>
-          <div style="padding:14px; background:rgba(255,255,255,0.04); border-radius:12px; font-size:0.82rem; color:var(--text-sub);">
-            Network Status: 1.2 GB/s Transferred | WebGL 2.0 Active
-          </div>
         </div>
       </div>
 
@@ -1012,7 +975,7 @@ print(Engine.Init())</textarea>
             <div class="os-content-pane">
               <!-- TAB 1: PERSONALIZE -->
               <div class="settings-section active" id="appearanceTab">
-                <h3 style="font-size:1.05rem; font-weight:700;">80+ HD Wallpaper Gallery</h3>
+                <h3 style="font-size:1.05rem; font-weight:700;">Wallpaper Gallery (30 Selected)</h3>
                 
                 <div class="setting-row">
                   <div class="setting-label">
@@ -1041,8 +1004,8 @@ print(Engine.Init())</textarea>
                     <span class="setting-desc">Adjust backdrop blur filter across all open windows and panels.</span>
                   </div>
                   <div style="display:flex; align-items:center; gap:10px;">
-                    <input type="range" min="0" max="60" value="35" id="sliderBlur" oninput="updateGlassEffects()" />
-                    <span id="valBlur" style="font-family:var(--font-code); font-size:0.85rem;">35px</span>
+                    <input type="range" min="0" max="60" value="38" id="sliderBlur" oninput="updateGlassEffects()" />
+                    <span id="valBlur" style="font-family:var(--font-code); font-size:0.85rem;">38px</span>
                   </div>
                 </div>
 
@@ -1052,8 +1015,8 @@ print(Engine.Init())</textarea>
                     <span class="setting-desc">Control backdrop transparency for windows, taskbar, and menus.</span>
                   </div>
                   <div style="display:flex; align-items:center; gap:10px;">
-                    <input type="range" min="30" max="100" value="88" id="sliderOpacity" oninput="updateGlassEffects()" />
-                    <span id="valOpacity" style="font-family:var(--font-code); font-size:0.85rem;">88%</span>
+                    <input type="range" min="30" max="100" value="62" id="sliderOpacity" oninput="updateGlassEffects()" />
+                    <span id="valOpacity" style="font-family:var(--font-code); font-size:0.85rem;">62%</span>
                   </div>
                 </div>
 
@@ -1062,7 +1025,7 @@ print(Engine.Init())</textarea>
                     <span class="setting-title">Primary Accent Glow</span>
                     <span class="setting-desc">Select custom glow highlight color for borders and active tabs.</span>
                   </div>
-                  <input type="color" id="accentPicker" value="#00f2fe" onchange="updateAccentColor(this.value)" style="background:none; border:none; cursor:pointer; width:32px; height:32px;" />
+                  <input type="color" id="accentPicker" value="#ffd700" onchange="updateAccentColor(this.value)" style="background:none; border:none; cursor:pointer; width:32px; height:32px;" />
                 </div>
               </div>
 
@@ -1079,7 +1042,7 @@ print(Engine.Init())</textarea>
                 <div class="setting-row">
                   <div class="setting-label">
                     <span class="setting-title">Dynamic Virtual RAM</span>
-                    <span class="setting-desc" id="settingsRamText">3.2 / 12.0 GB Dynamic Engine Active</span>
+                    <span class="setting-desc" id="settingsRamText">0 / 12 GB RAM</span>
                   </div>
                 </div>
                 <div class="setting-row">
@@ -1096,10 +1059,11 @@ print(Engine.Init())</textarea>
                 <div class="setting-row">
                   <div class="setting-label">
                     <span class="setting-title">Current Kernel Build</span>
-                    <span class="setting-desc">ENFROK WebOS Core 5.2 (Stable Release)</span>
+                    <span class="setting-desc">Enfrok WebOS Core 5.2 (Divine Gold Edition)</span>
                   </div>
                 </div>
-                <div style="border-top:1px solid var(--glass-border); padding-top:18px; margin-top:12px;">
+                <div style="border-top:1px solid var(--glass-border); padding-top:18px; margin-top:12px; display:flex; gap:12px;">
+                  <button class="btn-ui btn-accent" onclick="launchSetupExplicitly()">⚙️ Open Setup Wizard</button>
                   <button class="btn-ui btn-danger" onclick="eraseSystemData()">⚠️ Factory Reset OS</button>
                 </div>
               </div>
@@ -1116,7 +1080,7 @@ print(Engine.Init())</textarea>
     <!-- Notification Center -->
     <div class="notification-center" id="notificationCenter">
       <h3 style="font-size:1rem; font-weight:700;">Notifications & System Control</h3>
-      <div style="font-size:0.85rem; color:var(--text-sub); border-bottom:1px solid var(--glass-border); padding-bottom:14px;">ENFROK OS 5.2 running with Spreadsheet engine, 30+ Paint tools & auto wallpaper slideshow.</div>
+      <div style="font-size:0.85rem; color:var(--text-sub); border-bottom:1px solid var(--glass-border); padding-bottom:14px;">Enfrok OS 5.2 running with Spreadsheet engine, 30+ Paint tools & auto wallpaper slideshow.</div>
     </div>
 
     <!-- TASKBAR (DOCK) -->
@@ -1133,44 +1097,58 @@ print(Engine.Init())</textarea>
           <div class="hub-avatar" id="hubAvatarLetter">D</div>
           <div>
             <div style="font-weight:800; font-size:0.95rem;" id="hubUsername">Developer</div>
-            <div style="font-size:0.78rem; color:var(--text-sub);">ENFROK Workstation Root</div>
+            <div style="font-size:0.78rem; color:var(--text-sub);">Enfrok Workstation Root</div>
           </div>
         </div>
         <button class="btn-ui" onclick="openWindow('settingsApp'); toggleLaunchHub();">⚙️ Settings</button>
       </div>
 
-      <input type="text" class="input-ui" placeholder="Search applications, documents or tools..." onkeyup="filterHub(this.value)" />
+      <input type="text" class="input-ui" placeholder="Search applications or tools..." onkeyup="filterHub(this.value)" />
 
       <div class="hub-grid" id="hubGrid"></div>
-    </div>
-
-    <!-- Search Overlay -->
-    <div class="search-overlay" id="searchOverlay">
-      <input type="text" class="input-ui" id="globalSearchInput" placeholder="Global ENFROK Search..." onkeyup="handleGlobalSearch(this.value)" />
-      <div id="searchResults" style="margin-top:14px; max-height:260px; overflow-y:auto; font-size:0.88rem; color:var(--text-sub);"></div>
     </div>
 
   </div>
 
 <script>
-  // 80+ HD WALLPAPERS
   const WALLPAPERS = [
     'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1920',
-    'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600',
-    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600',
-    'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600',
-    'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=600',
-    'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=600',
-    'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=600',
-    'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=600'
+    'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920',
+    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1920',
+    'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1920',
+    'https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920',
+    'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=1920',
+    'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1920',
+    'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1920',
+    'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?q=80&w=1920',
+    'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1920',
+    'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1920',
+    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1920',
+    'https://images.unsplash.com/photo-1426604966848-d7adac402bff?q=80&w=1920',
+    'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=80&w=1920',
+    'https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?q=80&w=1920',
+    'https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?q=80&w=1920',
+    'https://images.unsplash.com/photo-1501854140801-50d01698950b?q=80&w=1920',
+    'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?q=80&w=1920',
+    'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1920',
+    'https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?q=80&w=1920',
+    'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?q=80&w=1920',
+    'https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=1920',
+    'https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=1920',
+    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1920',
+    'https://images.unsplash.com/photo-1510784722466-be2aa9c42fa6?q=80&w=1920',
+    'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?q=80&w=1920',
+    'https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?q=80&w=1920',
+    'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&w=1920',
+    'https://images.unsplash.com/photo-1506260408121-e353d10b87c7?q=80&w=1920',
+    'https://images.unsplash.com/photo-1490730141103-6cac27aaab94?q=80&w=1920'
   ];
 
-  // PRIMARY APPS IN TASKBAR (DOCK)
   const DOCK_APPS = [
     { id: 'sheetApp', name: 'Spreadsheet', icon: '📊' },
     { id: 'wordApp', name: 'Text Studio', icon: '📄' },
     { id: 'paintApp', name: 'Paint Board', icon: '🎨' },
-    { id: 'documentCore', name: 'Files', icon: '📁' },
+    { id: 'documentCore', name: 'Document', icon: '📁' },
     { id: 'terminalApp', name: 'Terminal', icon: '⚡' },
     { id: 'codeStudio', name: 'Studio Code', icon: '👨‍💻' },
     { id: 'browserApp', name: 'Browser', icon: '🌐' },
@@ -1185,9 +1163,7 @@ print(Engine.Init())</textarea>
     { id: 'settingsApp', name: 'Settings', icon: '⚙️' }
   ];
 
-  // EXTRA APPS ON DESKTOP & START MENU
   const EXTRA_APPS = [
-    { id: 'sysMonApp', name: 'System Monitor', icon: '📊' },
     { id: 'asciiApp', name: 'ASCII Studio', icon: '🔡' },
     { id: 'stickyApp', name: 'Sticky Notes', icon: '📌' },
     { id: 'clockApp', name: 'Clock & Timer', icon: '⏱️' }
@@ -1196,7 +1172,6 @@ print(Engine.Init())</textarea>
   const ALL_APPS = [...DOCK_APPS, ...EXTRA_APPS];
 
   let winZIndex = 200;
-  let currentRam = 3.2;
   let audioMuted = false;
   let activeSheetFilename = "Untitled_Sheet.sheet";
   let activeDocFilename = "Untitled_Document.doc";
@@ -1212,12 +1187,12 @@ print(Engine.Init())</textarea>
     username: 'Developer',
     wallpaper: WALLPAPERS[0],
     wpIntervalSetting: 'off',
-    blurVal: 35,
-    opacityVal: 88,
+    blurVal: 38,
+    opacityVal: 62,
     uninstalledApps: [],
     savedFiles: [
       { name: 'Number.sheet', data: { A1: 'Income', B1: '5000', A2: 'Rent', B2: '1200', A3: 'Total', B3: '=SUM(B1:B2)' } },
-      { name: 'Welcome_Guide.doc', content: '<h2>Welcome to ENFROK OS 5.2</h2><p>This is your saved document in Files storage.</p>' }
+      { name: 'Welcome_Guide.doc', content: '<h2>Welcome to Enfrok OS 5.2</h2><p>This is your saved document in Files storage.</p>' }
     ]
   };
 
@@ -1237,7 +1212,6 @@ print(Engine.Init())</textarea>
     location.reload();
   }
 
-  // BOOT INIT
   window.addEventListener('DOMContentLoaded', () => {
     loadData();
     populateWallpapers();
@@ -1247,13 +1221,12 @@ print(Engine.Init())</textarea>
       setWallpaper(osData.wallpaper);
       applyGlassSettings();
       setAutoWpTimer(osData.wpIntervalSetting || 'off');
-      setTimeout(() => {
-        document.getElementById('boot-screen').classList.add('hidden');
-        document.getElementById('desktop-screen').classList.remove('hidden');
-        initDesktop();
-        initPaintStudio();
-        generatePass();
-      }, 800);
+      document.getElementById('boot-screen').classList.add('hidden');
+      document.getElementById('setup-screen').classList.add('hidden');
+      document.getElementById('desktop-screen').classList.remove('hidden');
+      initDesktop();
+      initPaintStudio();
+      generatePass();
     } else {
       setTimeout(() => {
         document.getElementById('boot-screen').classList.add('hidden');
@@ -1306,6 +1279,12 @@ print(Engine.Init())</textarea>
     document.querySelectorAll('.setup-step').forEach(s => s.classList.remove('active'));
     document.getElementById(`page${page}`).classList.add('active');
     document.getElementById(`step${page}`).classList.add('active');
+  }
+
+  function launchSetupExplicitly() {
+    navSetup(1);
+    document.getElementById('desktop-screen').classList.add('hidden');
+    document.getElementById('setup-screen').classList.remove('hidden');
   }
 
   function startInstallation() {
@@ -1386,13 +1365,17 @@ print(Engine.Init())</textarea>
 
   function uninstallApp(id) {
     if (id === 'settingsApp' || id === 'documentCore') {
-      alert("Core System Apps cannot be uninstalled.");
+      alert("Core System Apps like Settings and Document cannot be uninstalled.");
       return;
     }
     if (!osData.uninstalledApps.includes(id)) {
       osData.uninstalledApps.push(id);
       saveData();
-      minimizeWindow(id);
+      const win = document.getElementById(id);
+      if (win) {
+        win.classList.remove('open-active', 'focused');
+        win.classList.add('minimized');
+      }
       initDesktop();
     }
   }
@@ -1434,8 +1417,11 @@ print(Engine.Init())</textarea>
     el.classList.add('selected');
   }
 
-  // WINDOW MANAGEMENT ENGINE
   function openWindow(id) {
+    if (osData.uninstalledApps.includes(id)) {
+      alert("This application is currently uninstalled. Re-install it from Settings or the Files App Manager.");
+      return;
+    }
     const win = document.getElementById(id);
     if (win) {
       win.classList.add('open-active');
@@ -1458,12 +1444,20 @@ print(Engine.Init())</textarea>
   function minimizeWindow(id) {
     const win = document.getElementById(id);
     if (win) {
+      if (win.classList.contains('fullscreen')) {
+        toggleFullscreen(id);
+      }
       win.classList.add('minimized');
+      win.classList.remove('open-active');
       updateDockState();
     }
   }
 
   function toggleWindow(id) {
+    if (osData.uninstalledApps.includes(id)) {
+      alert("This application is currently uninstalled. Re-install it from Settings or the Files App Manager.");
+      return;
+    }
     const win = document.getElementById(id);
     if (!win) return;
     if (win.classList.contains('minimized') || !win.classList.contains('open-active')) openWindow(id);
@@ -1472,11 +1466,31 @@ print(Engine.Init())</textarea>
 
   function toggleFullscreen(id) {
     const win = document.getElementById(id);
-    if (win) win.classList.toggle('fullscreen');
+    if (win) {
+      win.classList.toggle('fullscreen');
+      updateFullscreenState();
+    }
+  }
+
+  function updateFullscreenState() {
+    const hasFs = document.querySelector('.os-window.fullscreen') !== null;
+    if (hasFs) {
+      document.body.classList.add('has-fullscreen-app');
+    } else {
+      document.body.classList.remove('has-fullscreen-app');
+    }
   }
 
   function closeWindow(id) {
-    minimizeWindow(id);
+    const win = document.getElementById(id);
+    if (win) {
+      if (win.classList.contains('fullscreen')) {
+        toggleFullscreen(id);
+      }
+      win.classList.remove('open-active', 'focused');
+      win.classList.add('minimized');
+      updateDockState();
+    }
   }
 
   function updateDockState() {
@@ -1495,6 +1509,7 @@ print(Engine.Init())</textarea>
     if (win.classList.contains('fullscreen')) return;
 
     focusWindow(win);
+    win.classList.add('dragging');
     let shiftX = e.clientX - win.getBoundingClientRect().left;
     let shiftY = e.clientY - win.getBoundingClientRect().top;
 
@@ -1506,12 +1521,12 @@ print(Engine.Init())</textarea>
     function onMouseMove(evt) { moveAt(evt.clientX, evt.clientY); }
     document.addEventListener('mousemove', onMouseMove);
     document.onmouseup = function() {
+      win.classList.remove('dragging');
       document.removeEventListener('mousemove', onMouseMove);
       document.onmouseup = null;
     };
   }
 
-  /* SPREADSHEET ENGINE */
   function initSpreadsheetGrid() {
     const headerRow = document.getElementById('sheetHeaderRow');
     const bodyRows = document.getElementById('sheetBodyRows');
@@ -1637,10 +1652,9 @@ print(Engine.Init())</textarea>
     link.click();
   }
 
-  /* PAINT STUDIO PRO ENGINE */
   let paintTool = 'pen';
   let paintSize = 5;
-  let paintColor = '#00f2fe';
+  let paintColor = '#ffd700';
   let isPainting = false;
   let startX = 0, startY = 0;
   let paintUndoStack = [];
@@ -1669,7 +1683,7 @@ print(Engine.Init())</textarea>
         setPaintColor(hex);
         isPainting = false;
       } else if (paintTool === 'text') {
-        const txt = prompt("Enter text to draw on canvas:", "ENFROK OS");
+        const txt = prompt("Enter text to draw on canvas:", "Enfrok OS");
         if (txt) {
           ctx.font = `${paintSize * 4}px Plus Jakarta Sans`;
           ctx.fillStyle = paintColor;
@@ -1831,7 +1845,6 @@ print(Engine.Init())</textarea>
     }
   }
 
-  /* GLASS CONTROLLER */
   function updateGlassEffects() {
     const blur = document.getElementById('sliderBlur').value;
     const opacity = document.getElementById('sliderOpacity').value;
@@ -1846,8 +1859,8 @@ print(Engine.Init())</textarea>
   }
 
   function applyGlassSettings() {
-    const blur = osData.blurVal || 35;
-    const opacity = (osData.opacityVal || 88) / 100;
+    const blur = osData.blurVal || 38;
+    const opacity = (osData.opacityVal || 62) / 100;
 
     document.documentElement.style.setProperty('--glass-blur-val', `${blur}px`);
     document.documentElement.style.setProperty('--glass-opacity-val', opacity);
@@ -1855,7 +1868,7 @@ print(Engine.Init())</textarea>
     const sliderB = document.getElementById('sliderBlur');
     const sliderO = document.getElementById('sliderOpacity');
     if (sliderB) sliderB.value = blur;
-    if (sliderO) sliderO.value = osData.opacityVal || 88;
+    if (sliderO) sliderO.value = osData.opacityVal || 62;
   }
 
   function updateAccentColor(val) {
@@ -1863,7 +1876,6 @@ print(Engine.Init())</textarea>
     document.documentElement.style.setProperty('--glass-border-focused', val);
   }
 
-  /* TEXT STUDIO CONTROLLER */
   function execWordCmd(cmd, val = null) {
     document.execCommand(cmd, false, val);
     updateWordStats();
@@ -1925,7 +1937,6 @@ print(Engine.Init())</textarea>
 
   function exportWordPDF() { window.print(); }
 
-  // FILES APP MANAGER
   function renderFolders() {
     const view = document.getElementById('folderView');
     if(!view) return;
@@ -1997,16 +2008,15 @@ print(Engine.Init())</textarea>
     openWindow('wordApp');
   }
 
-  // UTILITIES
   function generateAsciiArt() {
     const val = document.getElementById('asciiInput').value || "ENFROK";
     document.getElementById('asciiOutput').value = `
-  ______ _   _ ______ _____    ____  _  __
- |  ____| \ | |  ____|  __ \  / __ \| |/ /
- | |__  |  \| | |__  | |__) | |  | | ' / 
- |  __| | . \` |  __| |  _  /| |  | |  <  
- | |____| |\  | |    | | \ \| |__| | . \ 
- |______|_| \_|_|    |_|  \_\\____/|_|\_\  [${val}]
+ ______ _   _ ______ _____    ____  _  __
+|  ____| \ | |  ____|  __ \  / __ \| |/ /
+| |__  |  \| | |__  | |__) | |  | | ' / 
+|  __| | . \` |  __| |  _  /| |  | |  <  
+| |____| |\  | |    | | \ \| |__| | . \ 
+|______|_| \_|_|    |_|  \_\\____/|_|\_\  [${val}]
     `;
   }
 
@@ -2056,7 +2066,12 @@ print(Engine.Init())</textarea>
   }
 
   function openLuckyBlock() {
-    const rewards = ['Brainrot God Pet (0.1%)', 'Mythic Taco (2.5%)', 'Radioactive Plot (5%)', 'Common Block'];
+    const rewards = [
+      'Brainrot God Pet (0.1%)', 
+      'Taco Lucky Block (2.5%)', 
+      'PlotRadioactive Modification (5%)', 
+      'Divine Gold Plot Token (1%)'
+    ];
     document.getElementById('luckyResult').textContent = `🎉 You Unlocked: ${rewards[Math.floor(Math.random() * rewards.length)]}!`;
   }
 
@@ -2080,15 +2095,19 @@ print(Engine.Init())</textarea>
 
     if (appId) {
       const app = ALL_APPS.find(a => a.id === appId);
+      let uninstallOption = `<div class="context-item danger" onclick="uninstallApp('${appId}')">🗑️ Uninstall App</div>`;
+      if (appId === 'settingsApp' || appId === 'documentCore') {
+        uninstallOption = `<div class="context-item" style="opacity:0.5; cursor:not-allowed;">🔒 System Protected</div>`;
+      }
       menu.innerHTML = `
         <div class="context-item" onclick="openWindow('${appId}')">▶ Launch ${app.name}</div>
-        <div class="context-item danger" onclick="uninstallApp('${appId}')">🗑️ Uninstall App</div>
+        ${uninstallOption}
       `;
     } else {
       menu.innerHTML = `
         <div class="context-item" onclick="openWindow('sheetApp')">📊 New Spreadsheet</div>
         <div class="context-item" onclick="openWindow('wordApp')">📄 New Document</div>
-        <div class="context-item" onclick="openWindow('documentCore')">📁 Open Files</div>
+        <div class="context-item" onclick="openWindow('documentCore')">📁 Open Document</div>
         <div class="context-item" onclick="openWindow('settingsApp')">⚙️ Settings</div>
         <div class="context-item" onclick="location.reload()">🔄 Refresh OS</div>
       `;
@@ -2108,31 +2127,6 @@ print(Engine.Init())</textarea>
     });
   }
 
-  function toggleSearch() {
-    const search = document.getElementById('searchOverlay');
-    search.classList.toggle('open');
-    if (search.classList.contains('open')) document.getElementById('globalSearchInput').focus();
-  }
-
-  function handleGlobalSearch(q) {
-    const results = document.getElementById('searchResults');
-    if (!q.trim()) { results.innerHTML = ''; return; }
-    
-    let matches = getInstalledApps().filter(a => a.name.toLowerCase().includes(q.toLowerCase()));
-    results.innerHTML = matches.map(m => `
-      <div style="padding:10px; background:rgba(255,255,255,0.06); border-radius:10px; margin-bottom:8px; cursor:pointer;" onclick="openWindow('${m.id}'); toggleSearch();">
-        ${m.icon} ${m.name} (Application)
-      </div>
-    `).join('') || 'No matches found.';
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.code === 'Space') {
-      e.preventDefault();
-      toggleSearch();
-    }
-  });
-
   function handleTermCmd(e) {
     if (e.key === 'Enter') {
       const input = document.getElementById('termInput');
@@ -2141,7 +2135,7 @@ print(Engine.Init())</textarea>
       input.value = '';
 
       let res = '';
-      if (cmd === 'help') res = `ENFROK Utilities:\n- help: Command list\n- ls: List files in Root Storage\n- clear: Flush terminal`;
+      if (cmd === 'help') res = `Enfrok Utilities:\n- help: Command list\n- ls: List files in Root Storage\n- clear: Flush terminal`;
       else if (cmd === 'ls') res = `root_storage/\n` + osData.savedFiles.map(f => `├── ${f.name}`).join('\n');
       else if (cmd === 'clear') { output.textContent = ''; return; }
       else res = `Command '${cmd}' not recognized.`;
@@ -2192,21 +2186,6 @@ print(Engine.Init())</textarea>
   setInterval(() => {
     const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     document.getElementById('sysClock').textContent = timeStr;
-
-    currentRam += (Math.random() * 0.1) - 0.05;
-    if (currentRam < 2.8) currentRam = 2.8;
-    if (currentRam > 6.8) currentRam = 6.8;
-
-    document.getElementById('sysRam').textContent = `${currentRam.toFixed(1)} / 12.0 GB RAM`;
-
-    const cVal = Math.floor(10 + Math.random() * 25);
-    const gVal = Math.floor(20 + Math.random() * 20);
-    if (document.getElementById('monCpuVal')) {
-      document.getElementById('monCpuVal').textContent = `${cVal}%`;
-      document.getElementById('monCpuBar').style.width = `${cVal}%`;
-      document.getElementById('monGpuVal').textContent = `${gVal}%`;
-      document.getElementById('monGpuBar').style.width = `${gVal}%`;
-    }
   }, 1000);
 </script>
 </body>
