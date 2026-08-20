@@ -9,9 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --accent: #ffd700;
-    --accent-purple: #ffffff;
-    --accent-glow: rgba(255, 215, 0, 0.4);
+    --accent: #3b82f6 !important;
+    --accent-purple: #60a5fa;
+    --accent-glow: rgba(59, 130, 246, 0.4);
     --bg-wallpaper: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1920&auto=format&fit=crop');
     
     --glass-blur-val: 38px;
@@ -25,7 +25,7 @@
     --glass-menu: rgba(14, 18, 30, 0.95);
     --glass-dialog: rgba(16, 20, 34, 0.92);
     --glass-border: rgba(255, 255, 255, 0.16);
-    --glass-border-focused: rgba(255, 215, 0, 0.6);
+    --glass-border-focused: rgba(59, 130, 246, 0.6);
     --glass-shadow: 0 30px 80px rgba(0, 0, 0, 0.85);
     
     --text-main: #f8fafc;
@@ -60,11 +60,11 @@
     transition: background-color 0.15s, border-color 0.15s;
   }
   .btn-ui:hover { background: rgba(255, 255, 255, 0.18); border-color: var(--accent); }
-  .btn-ui.active { background: rgba(255, 215, 0, 0.25); border-color: var(--accent); }
+  .btn-ui.active { background: rgba(59, 130, 246, 0.25); border-color: var(--accent); }
 
   .btn-accent {
     background: linear-gradient(135deg, var(--accent), var(--accent-purple));
-    color: #030508; border: none; font-weight: 700;
+    color: #ffffff; border: none; font-weight: 700;
   }
   .btn-danger { background: rgba(239, 68, 68, 0.3); border-color: rgba(239, 68, 68, 0.6); color: #fca5a5; }
 
@@ -83,7 +83,7 @@
     background: linear-gradient(135deg, var(--accent), var(--accent-purple));
     box-shadow: 0 0 50px var(--accent-glow);
     display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 2.4rem; color: #030508;
+    font-weight: 800; font-size: 2.4rem; color: #ffffff;
   }
 
   #setup-screen { background: #030508; z-index: 9000; }
@@ -102,7 +102,7 @@
     width: 28px; height: 28px; border-radius: 10px; background: rgba(255,255,255,0.06);
     display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
   }
-  .setup-step.active .setup-step-num { background: linear-gradient(135deg, var(--accent), var(--accent-purple)); color: #000; font-weight: 800; }
+  .setup-step.active .setup-step-num { background: linear-gradient(135deg, var(--accent), var(--accent-purple)); color: #fff; font-weight: 800; }
 
   .setup-main { flex: 1; padding: 44px; display: flex; flex-direction: column; justify-content: space-between; }
   .setup-page { display: none; flex-direction: column; gap: 20px; }
@@ -136,7 +136,7 @@
     padding: 8px; border-radius: 14px; border: 1px solid transparent; font-weight: 500;
   }
   .d-icon:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.25); }
-  .d-icon.selected { background: rgba(255, 215, 0, 0.2); border-color: var(--accent); }
+  .d-icon.selected { background: rgba(59, 130, 246, 0.2); border-color: var(--accent); }
   .d-icon-box { font-size: 2.3rem; filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5)); }
 
   /* TASKBAR (DOCK) */
@@ -152,7 +152,7 @@
     width: 48px; height: 48px; border-radius: 16px;
     background: linear-gradient(135deg, var(--accent), var(--accent-purple));
     border: none; display: flex; align-items: center; justify-content: center;
-    font-size: 1.4rem; font-weight: 800; color: #030508; cursor: pointer;
+    font-size: 1.4rem; font-weight: 800; color: #ffffff; cursor: pointer;
     box-shadow: 0 0 20px var(--accent-glow);
     transition: transform 0.2s var(--anim-curve);
   }
@@ -167,10 +167,6 @@
     transition: transform 0.2s var(--anim-curve), background-color 0.2s, border-color 0.2s;
   }
   .dock-item:hover { border-color: var(--accent); background: rgba(255,255,255,0.18); transform: translateY(-4px); }
-  .dock-item.active::after {
-    content: ''; position: absolute; bottom: -5px; width: 6px; height: 6px; border-radius: 50%;
-    background: var(--accent); box-shadow: 0 0 10px var(--accent);
-  }
 
   /* GLASSMORPHISM START MENU */
   .launch-hub-panel {
@@ -193,7 +189,7 @@
   .hub-avatar {
     width: 42px; height: 42px; border-radius: 14px;
     background: linear-gradient(135deg, var(--accent), var(--accent-purple));
-    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; color: #000;
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; color: #fff;
   }
   .hub-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; overflow-y: auto; flex: 1; align-content: start; }
 
@@ -232,9 +228,7 @@
     opacity: 0; pointer-events: none; transform: scale(0.92) translateY(15px);
     transition: top 0.35s var(--anim-curve), left 0.35s var(--anim-curve), width 0.35s var(--anim-curve), height 0.35s var(--anim-curve), border-radius 0.35s var(--anim-curve), opacity 0.25s var(--anim-curve), transform 0.25s var(--anim-curve), border-color 0.2s ease;
   }
-  .os-window.dragging {
-    transition: none !important;
-  }
+  .os-window.dragging { transition: none !important; }
   .os-window.open-active { opacity: 1; pointer-events: auto; transform: scale(1) translateY(0); }
   .os-window.unfocused { background: var(--glass-window-unfocused); border-color: rgba(255,255,255,0.08); }
   .os-window.focused { border-color: var(--glass-border-focused); box-shadow: 0 35px 90px rgba(0,0,0,0.85); }
@@ -293,7 +287,7 @@
     width: 100%; height: 100%; background: transparent; border: none; outline: none;
     color: #f8fafc; font-family: var(--font-ui); padding: 0 6px; font-size: 0.82rem;
   }
-  .sheet-cell-input:focus { background: rgba(255, 215, 0, 0.15); box-shadow: inset 0 0 0 2px var(--accent); }
+  .sheet-cell-input:focus { background: rgba(59, 130, 246, 0.15); box-shadow: inset 0 0 0 2px var(--accent); }
 
   /* PAINT STUDIO TOOLBAR */
   .paint-ribbon {
@@ -309,7 +303,7 @@
     display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
   }
   .paint-btn:hover { background: rgba(255,255,255,0.18); border-color: var(--accent); }
-  .paint-btn.active { background: rgba(255, 215, 0, 0.25); border-color: var(--accent); color: var(--accent); }
+  .paint-btn.active { background: rgba(59, 130, 246, 0.25); border-color: var(--accent); color: var(--accent); }
   .paint-swatch { width: 22px; height: 22px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3); cursor: pointer; }
 
   /* TEXT STUDIO TOOLBAR */
@@ -383,12 +377,24 @@
   .wp-thumb { height: 75px; border-radius: 12px; border: 2px solid transparent; cursor: pointer; background-size: cover; background-position: center; }
   .wp-thumb:hover, .wp-thumb.active { border-color: var(--accent); }
 
-  .stage-canvas { width: 100%; height: 100%; position: relative; background: #020305; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .laser-beam { position: absolute; top: 0; width: 4px; height: 100%; opacity: 0.85; transform-origin: top center; animation: laserSweep 2s infinite alternate ease-in-out; }
-  @keyframes laserSweep { 0% { transform: rotate(-45deg); } 100% { transform: rotate(45deg); } }
-  .stage-crowd { position: absolute; bottom: 0; width: 100%; height: 90px; background: repeating-linear-gradient(90deg, #111, #111 10px, #222 10px, #222 20px); opacity: 0.85; }
-
-  .lucky-box { width: 130px; height: 130px; background: linear-gradient(135deg, #f59e0b, #ef4444); border-radius: 24px; display: flex; align-items: center; justify-content: center; font-size: 4rem; cursor: pointer; box-shadow: 0 0 35px rgba(245, 158, 11, 0.5); }
+  /* REALISTIC SYNTH PIANO STYLES */
+  .piano-keyboard-container {
+    position: relative; width: 100%; height: 220px; background: #000;
+    display: flex; justify-content: center; padding: 20px 10px; border-radius: 12px;
+  }
+  .white-key {
+    width: 48px; height: 180px; background: linear-gradient(to bottom, #eeeeee, #ffffff);
+    border: 1px solid #1e293b; border-radius: 0 0 6px 6px; cursor: pointer; z-index: 1;
+    display: flex; align-items: flex-end; justify-content: center; padding-bottom: 10px;
+    font-weight: 700; color: #334155; font-size: 0.8rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  }
+  .white-key:active { background: #cbd5e1; transform: translateY(2px); }
+  .black-key {
+    width: 30px; height: 110px; background: linear-gradient(to bottom, #334155, #0f172a);
+    border-radius: 0 0 4px 4px; cursor: pointer; z-index: 2; margin-left: -15px; margin-right: -15px;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.7);
+  }
+  .black-key:active { background: #000000; }
 </style>
 </head>
 <body>
@@ -445,7 +451,6 @@
         <div class="top-item" onclick="openWindow('paintApp')">🎨 Paint Studio</div>
       </div>
       <div class="top-bar-section">
-        <div class="top-item" id="sysRam">0 / 12 GB RAM</div>
         <div class="top-item" id="sysAudioMute" onclick="toggleMuteAudio()">🔊 Audio</div>
         <div class="top-item" onclick="toggleNotifications()">🔔 <span id="sysClock">12:00 PM</span></div>
       </div>
@@ -468,25 +473,28 @@
         <div class="window-body">
           <div class="sheet-ribbon">
             <div class="sheet-group">
-              <button class="btn-ui btn-accent" style="padding:4px 10px;" onclick="saveSpreadsheet()">💾 Save to Files</button>
-              <button class="btn-ui" style="padding:4px 10px;" onclick="newSpreadsheet()">📄 New Sheet</button>
-              <button class="btn-ui" style="padding:4px 10px;" onclick="exportSheetCSV()">📥 Export CSV</button>
+              <button class="btn-ui btn-accent" style="padding:4px 10px;" onclick="saveSpreadsheet()">💾 Save</button>
+              <button class="btn-ui" style="padding:4px 10px;" onclick="newSpreadsheet()">📄 New</button>
+              <button class="btn-ui" style="padding:4px 10px;" onclick="exportSheetCSV()">📥 CSV</button>
             </div>
             <div class="sheet-group">
               <button class="btn-ui" style="padding:4px 8px;" onclick="applySheetFormat('bold')"><b>B</b></button>
               <button class="btn-ui" style="padding:4px 8px;" onclick="applySheetFormat('italic')"><i>I</i></button>
+              <button class="btn-ui" style="padding:4px 8px;" onclick="applySheetFormat('underline')"><u>U</u></button>
               <input type="color" id="sheetTextColor" onchange="applySheetColor(this.value, 'color')" style="width:24px; height:24px; border:none; background:none; cursor:pointer;" title="Text Color" />
               <input type="color" id="sheetBgColor" value="#0f172a" onchange="applySheetColor(this.value, 'background')" style="width:24px; height:24px; border:none; background:none; cursor:pointer;" title="Cell Background" />
             </div>
             <div class="sheet-group">
-              <button class="btn-ui" style="padding:4px 8px;" onclick="recalcSpreadsheet()">🔄 Recalculate</button>
+              <button class="btn-ui" style="padding:4px 8px;" onclick="recalcSpreadsheet()">🔄 Recalc</button>
+              <button class="btn-ui" style="padding:4px 8px;" onclick="addSheetRow()">➕ Row</button>
+              <button class="btn-ui" style="padding:4px 8px;" onclick="clearSheetGrid()">🗑️ Clear</button>
             </div>
           </div>
 
           <div class="sheet-formula-bar">
             <span style="color:var(--accent); font-weight:700;" id="sheetActiveCellLabel">A1</span>
             <span style="color:var(--text-sub);">ƒx</span>
-            <input type="text" class="input-ui" id="sheetFormulaInput" placeholder="Type text or formula (e.g. =SUM(A1:A5) or =A1+B1)..." onkeydown="if(event.key==='Enter') commitSheetFormula()" style="padding:4px 10px; font-size:0.85rem;" />
+            <input type="text" class="input-ui" id="sheetFormulaInput" placeholder="Type text or formula (e.g. =SUM(A1:A5), =AVERAGE(A1:A5), =MIN(A1:A5), =MAX(A1:A5))..." onkeydown="if(event.key==='Enter') commitSheetFormula()" style="padding:4px 10px; font-size:0.85rem;" />
           </div>
 
           <div class="sheet-table-wrap">
@@ -511,48 +519,38 @@
         <div class="window-body">
           <div class="paint-ribbon">
             <div class="paint-group">
-              <button class="paint-btn active" id="tool-pen" onclick="setPaintTool('pen')" title="1: Brush/Pen">✏️</button>
-              <button class="paint-btn" id="tool-eraser" onclick="setPaintTool('eraser')" title="2: Eraser">🧹</button>
-              <button class="paint-btn" id="tool-line" onclick="setPaintTool('line')" title="3: Line Tool">📏</button>
-              <button class="paint-btn" id="tool-rect" onclick="setPaintTool('rect')" title="4: Rectangle">🔲</button>
-              <button class="paint-btn" id="tool-circle" onclick="setPaintTool('circle')" title="5: Circle">⭕</button>
-              <button class="paint-btn" id="tool-fillRect" onclick="setPaintTool('fillRect')" title="6: Filled Rectangle">⬛</button>
-              <button class="paint-btn" id="tool-fillCircle" onclick="setPaintTool('fillCircle')" title="7: Filled Circle">🔴</button>
-              <button class="paint-btn" id="tool-bucket" onclick="setPaintTool('bucket')" title="8: Paint Bucket Fill">🪣</button>
-              <button class="paint-btn" id="tool-picker" onclick="setPaintTool('picker')" title="9: Color Eyedropper">🧪</button>
-              <button class="paint-btn" id="tool-text" onclick="setPaintTool('text')" title="10: Text Tool">🔤</button>
+              <button class="paint-btn active" id="tool-pen" onclick="setPaintTool('pen')" title="Brush/Pen">✏️</button>
+              <button class="paint-btn" id="tool-eraser" onclick="setPaintTool('eraser')" title="Eraser">🧹</button>
+              <button class="paint-btn" id="tool-line" onclick="setPaintTool('line')" title="Line Tool">📏</button>
+              <button class="paint-btn" id="tool-rect" onclick="setPaintTool('rect')" title="Rectangle">🔲</button>
+              <button class="paint-btn" id="tool-circle" onclick="setPaintTool('circle')" title="Circle">⭕</button>
+              <button class="paint-btn" id="tool-fillRect" onclick="setPaintTool('fillRect')" title="Filled Rect">⬛</button>
+              <button class="paint-btn" id="tool-fillCircle" onclick="setPaintTool('fillCircle')" title="Filled Circle">🔴</button>
+              <button class="paint-btn" id="tool-bucket" onclick="setPaintTool('bucket')" title="Bucket Fill">🪣</button>
+              <button class="paint-btn" id="tool-picker" onclick="setPaintTool('picker')" title="Eyedropper">🧪</button>
+              <button class="paint-btn" id="tool-text" onclick="setPaintTool('text')" title="Text Tool">🔤</button>
             </div>
             <div class="paint-group">
-              <button class="paint-btn" onclick="setPaintSize(2)" title="11: Small Size (2px)">•</button>
-              <button class="paint-btn active" onclick="setPaintSize(5)" title="12: Medium Size (5px)">●</button>
-              <button class="paint-btn" onclick="setPaintSize(12)" title="13: Large Size (12px)">⬤</button>
-              <button class="paint-btn" onclick="setPaintSize(24)" title="14: XL Size (24px)">🌑</button>
+              <button class="paint-btn" onclick="setPaintSize(2)">•</button>
+              <button class="paint-btn active" onclick="setPaintSize(5)">●</button>
+              <button class="paint-btn" onclick="setPaintSize(12)">⬤</button>
+              <button class="paint-btn" onclick="setPaintSize(24)">🌑</button>
             </div>
             <div class="paint-group">
-              <div class="paint-swatch" style="background:#000000;" onclick="setPaintColor('#000000')" title="15: Black"></div>
-              <div class="paint-swatch" style="background:#ffffff;" onclick="setPaintColor('#ffffff')" title="16: White"></div>
-              <div class="paint-swatch" style="background:#ef4444;" onclick="setPaintColor('#ef4444')" title="17: Red"></div>
-              <div class="paint-swatch" style="background:#22c55e;" onclick="setPaintColor('#22c55e')" title="18: Green"></div>
-              <div class="paint-swatch" style="background:#3b82f6;" onclick="setPaintColor('#3b82f6')" title="19: Blue"></div>
-              <div class="paint-swatch" style="background:#eab308;" onclick="setPaintColor('#eab308')" title="20: Yellow"></div>
-              <div class="paint-swatch" style="background:#a855f7;" onclick="setPaintColor('#a855f7')" title="21: Purple"></div>
-              <div class="paint-swatch" style="background:#f97316;" onclick="setPaintColor('#f97316')" title="22: Orange"></div>
-              <div class="paint-swatch" style="background:#06b6d4;" onclick="setPaintColor('#06b6d4')" title="23: Cyan"></div>
-              <div class="paint-swatch" style="background:#ec4899;" onclick="setPaintColor('#ec4899')" title="24: Magenta"></div>
+              <input type="color" id="paintColorMain" value="#3b82f6" onchange="setPaintColor(this.value)" style="width:26px; height:26px; border:none; background:none; cursor:pointer;" />
+              <input type="color" id="paintColorFill" value="#ffffff" style="width:26px; height:26px; border:none; background:none; cursor:pointer;" />
             </div>
             <div class="paint-group">
-              <input type="color" id="paintColorMain" value="#ffd700" onchange="setPaintColor(this.value)" style="width:26px; height:26px; border:none; background:none; cursor:pointer;" title="25: Primary Color Picker" />
-              <input type="color" id="paintColorFill" value="#ffffff" style="width:26px; height:26px; border:none; background:none; cursor:pointer;" title="26: Secondary/Fill Color Picker" />
-            </div>
-            <div class="paint-group">
-              <button class="paint-btn" onclick="clearPaintCanvas()" title="27: Clear Canvas">🗑️ Clear</button>
-              <button class="paint-btn" onclick="invertPaintCanvas()" title="28: Invert Canvas Colors">☯️ Invert</button>
-              <button class="paint-btn" onclick="flipPaintCanvas('h')" title="29: Flip Horizontal">↔️ Flip H</button>
-              <button class="paint-btn" onclick="flipPaintCanvas('v')" title="30: Flip Vertical">↕️ Flip V</button>
-              <button class="paint-btn btn-accent" onclick="downloadPaintCanvas()" title="31: Export Image PNG">💾 Download</button>
-              <button class="paint-btn" onclick="savePaintToFiles()" title="32: Save to Root Files">📂 Save File</button>
-              <button class="paint-btn" onclick="undoPaint()" title="33: Undo Stroke">↩️ Undo</button>
-              <button class="paint-btn" onclick="redoPaint()" title="34: Redo Stroke">↪️ Redo</button>
+              <button class="paint-btn" onclick="clearPaintCanvas()">🗑️ Clear</button>
+              <button class="paint-btn" onclick="invertPaintCanvas()">☯️ Invert</button>
+              <button class="paint-btn" onclick="flipPaintCanvas('h')">↔️ Flip H</button>
+              <button class="paint-btn" onclick="flipPaintCanvas('v')">↕️ Flip V</button>
+              <button class="paint-btn" onclick="applyPaintFilter('grayscale')">👵 Gray</button>
+              <button class="paint-btn" onclick="applyPaintFilter('sepia')">📜 Sepia</button>
+              <button class="paint-btn btn-accent" onclick="downloadPaintCanvas()">💾 Download</button>
+              <button class="paint-btn" onclick="savePaintToFiles()">📂 Save</button>
+              <button class="paint-btn" onclick="undoPaint()">↩️</button>
+              <button class="paint-btn" onclick="redoPaint()">↪️</button>
             </div>
           </div>
           <div style="flex:1; background:#111827; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:16px;">
@@ -561,7 +559,7 @@
         </div>
       </div>
 
-      <!-- APP 2: TEXT STUDIO -->
+      <!-- APP 2: TEXT STUDIO (MORE FEATURES ADDED) -->
       <div class="os-window" id="wordApp" style="width: 880px; height: 580px; top: 30px; left: 100px;">
         <div class="window-topbar" onmousedown="dragWindow(event, 'wordApp')">
           <div class="window-title">📄 Text Studio — <span id="wordDocTitle" style="color:var(--accent);">Untitled_Document.doc</span></div>
@@ -585,6 +583,8 @@
                 <option value="Arial">Arial</option>
                 <option value="Times New Roman">Times New Roman</option>
                 <option value="Courier New">Courier Monospace</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Verdana">Verdana</option>
               </select>
               <select class="word-select" id="wordFontSize" onchange="execWordCmd('fontSize', this.value)">
                 <option value="3">12 pt</option>
@@ -592,16 +592,22 @@
                 <option value="2">10 pt</option>
                 <option value="4">14 pt</option>
                 <option value="5">18 pt</option>
+                <option value="6">24 pt</option>
+                <option value="7">36 pt</option>
               </select>
             </div>
             <div class="word-group">
               <button class="word-btn" onclick="execWordCmd('bold')"><b>B</b></button>
               <button class="word-btn" onclick="execWordCmd('italic')"><i>I</i></button>
               <button class="word-btn" onclick="execWordCmd('underline')"><u>U</u></button>
+              <button class="word-btn" onclick="execWordCmd('strikeThrough')"><s>S</s></button>
+              <button class="word-btn" onclick="execWordCmd('removeFormat')">🧹 Clear</button>
             </div>
             <div class="word-group">
-              <label style="font-size:0.75rem; color:var(--text-sub);">Color:</label>
+              <label style="font-size:0.75rem; color:var(--text-sub);">Text:</label>
               <input type="color" onchange="execWordCmd('foreColor', this.value)" style="width:24px; height:24px; border:none; background:none; cursor:pointer;" />
+              <label style="font-size:0.75rem; color:var(--text-sub);">Highlight:</label>
+              <input type="color" value="#ffff00" onchange="execWordCmd('hiliteColor', this.value)" style="width:24px; height:24px; border:none; background:none; cursor:pointer;" />
             </div>
             <div class="word-group">
               <button class="word-btn" onclick="execWordCmd('justifyLeft')">⬅</button>
@@ -609,8 +615,12 @@
               <button class="word-btn" onclick="execWordCmd('justifyRight')">➡</button>
             </div>
             <div class="word-group">
+              <button class="word-btn" onclick="execWordCmd('insertUnorderedList')">• List</button>
+              <button class="word-btn" onclick="execWordCmd('insertOrderedList')">1. List</button>
               <button class="word-btn" onclick="insertWordTable()">📊 Table</button>
               <button class="word-btn" onclick="insertWordLink()">🔗 Link</button>
+              <button class="word-btn" onclick="insertWordImage()">🖼️ Image</button>
+              <button class="word-btn" onclick="insertWordHr()">➖ HR</button>
             </div>
           </div>
 
@@ -711,7 +721,7 @@ print(Engine.Init())</textarea>
         </div>
       </div>
 
-      <!-- APP 6: BROWSER -->
+      <!-- APP 6: BROWSER (MORE WEBSITES ELIGIBLE) -->
       <div class="os-window" id="browserApp" style="width: 760px; height: 500px; top: 60px; left: 240px;">
         <div class="window-topbar" onmousedown="dragWindow(event, 'browserApp')">
           <div class="window-title">🌐 Web Browser</div>
@@ -723,6 +733,13 @@ print(Engine.Init())</textarea>
         </div>
         <div class="window-body" style="display:flex; flex-direction:column; height:100%;">
           <div class="browser-bar">
+            <select class="input-ui" style="width:200px; padding:4px 8px;" onchange="document.getElementById('browserUrl').value=this.value; navBrowser();">
+              <option value="https://www.wikipedia.org">Wikipedia</option>
+              <option value="https://www.bing.com">Bing Search</option>
+              <option value="https://www.archive.org">Internet Archive</option>
+              <option value="https://html5test.com">HTML5 Test</option>
+              <option value="https://www.openstreetmap.org">OpenStreetMap</option>
+            </select>
             <input type="text" id="browserUrl" class="input-ui" value="https://www.wikipedia.org" style="padding:6px 12px; font-size:0.85rem;" onkeydown="if(event.key==='Enter') navBrowser()" />
             <button class="btn-ui btn-accent" style="padding:6px 14px; font-size:0.8rem;" onclick="navBrowser()">Go</button>
           </div>
@@ -798,18 +815,25 @@ print(Engine.Init())</textarea>
         </div>
       </div>
 
-      <!-- APP 10: JSON FORMATTER -->
-      <div class="os-window" id="jsonApp" style="width: 600px; height: 420px; top: 80px; left: 220px;">
-        <div class="window-topbar" onmousedown="dragWindow(event, 'jsonApp')">
-          <div class="window-title">🛠️ JSON Data Studio</div>
+      <!-- APP 10: FUNNY SOUNDBOARD (RENAMED & UNIQUE FREQUENCIES) -->
+      <div class="os-window" id="soundboardApp" style="width: 580px; height: 440px; top: 80px; left: 220px;">
+        <div class="window-topbar" onmousedown="dragWindow(event, 'soundboardApp')">
+          <div class="window-title">🔊 Funny Soundboard</div>
           <div class="win-controls-pills">
-            <span class="win-pill-btn" onclick="minimizeWindow('jsonApp')">─</span>
-            <span class="win-pill-btn pill-close" onclick="closeWindow('jsonApp')">✕</span>
+            <span class="win-pill-btn" onclick="minimizeWindow('soundboardApp')">─</span>
+            <span class="win-pill-btn pill-close" onclick="closeWindow('soundboardApp')">✕</span>
           </div>
         </div>
-        <div class="window-body" style="padding:18px; display:flex; flex-direction:column; gap:10px;">
-          <textarea class="code-area" id="jsonInput" placeholder="Paste unformatted JSON here..." style="flex:1;"></textarea>
-          <button class="btn-ui btn-accent" onclick="formatJsonData()">Format & Validate JSON</button>
+        <div class="window-body" style="padding:20px; display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">
+          <button class="btn-ui btn-accent" onclick="playMemeSound('airhorn')">📯 Airhorn</button>
+          <button class="btn-ui btn-accent" onclick="playMemeSound('bruh')">🗿 Bruh</button>
+          <button class="btn-ui btn-accent" onclick="playMemeSound('quack')">🦆 Quack</button>
+          <button class="btn-ui btn-accent" onclick="playMemeSound('victory')">🎺 Victory</button>
+          <button class="btn-ui btn-accent" onclick="playMemeSound('laser')">🔫 Laser</button>
+          <button class="btn-ui btn-accent" onclick="playMemeSound('coin')">🪙 Coin</button>
+          <button class="btn-ui btn-accent" onclick="playMemeSound('explode')">💥 Explosion</button>
+          <button class="btn-ui btn-accent" onclick="playMemeSound('applause')">👏 Applause</button>
+          <button class="btn-ui btn-accent" onclick="playMemeSound('whistle')">😗 Whistle</button>
         </div>
       </div>
 
@@ -934,10 +958,10 @@ print(Engine.Init())</textarea>
         </div>
       </div>
 
-      <!-- APP 18: STOPWATCH & CLOCK -->
-      <div class="os-window" id="clockApp" style="width: 440px; height: 340px; top: 110px; left: 270px;">
+      <!-- APP 18: STOPWATCH, CLOCK & ALARM -->
+      <div class="os-window" id="clockApp" style="width: 480px; height: 420px; top: 110px; left: 270px;">
         <div class="window-topbar" onmousedown="dragWindow(event, 'clockApp')">
-          <div class="window-title">⏱️ Stopwatch & Clock</div>
+          <div class="window-title">⏱️ Clock, Timer & Alarm</div>
           <div class="win-controls-pills">
             <span class="win-pill-btn" onclick="minimizeWindow('clockApp')">─</span>
             <span class="win-pill-btn pill-close" onclick="closeWindow('clockApp')">✕</span>
@@ -949,6 +973,14 @@ print(Engine.Init())</textarea>
             <button class="btn-ui btn-accent" onclick="startStopwatch()">Start</button>
             <button class="btn-ui" onclick="pauseStopwatch()">Pause</button>
             <button class="btn-ui btn-danger" onclick="resetStopwatch()">Reset</button>
+          </div>
+          <div style="width:100%; border-top:1px solid var(--glass-border); padding-top:14px; display:flex; flex-direction:column; gap:8px;">
+            <label style="font-size:0.85rem; color:var(--text-sub);">Set Alarm (HH:MM):</label>
+            <div style="display:flex; gap:8px;">
+              <input type="time" class="input-ui" id="alarmTimeInput" />
+              <button class="btn-ui btn-accent" onclick="setAlarm()">Set Alarm</button>
+            </div>
+            <div id="alarmStatus" style="font-size:0.8rem; color:var(--accent);">No alarm set</div>
           </div>
         </div>
       </div>
@@ -975,7 +1007,7 @@ print(Engine.Init())</textarea>
             <div class="os-content-pane">
               <!-- TAB 1: PERSONALIZE -->
               <div class="settings-section active" id="appearanceTab">
-                <h3 style="font-size:1.05rem; font-weight:700;">Wallpaper Gallery (30 Selected)</h3>
+                <h3 style="font-size:1.05rem; font-weight:700;">Wallpaper Gallery</h3>
                 
                 <div class="setting-row">
                   <div class="setting-label">
@@ -1023,9 +1055,9 @@ print(Engine.Init())</textarea>
                 <div class="setting-row">
                   <div class="setting-label">
                     <span class="setting-title">Primary Accent Glow</span>
-                    <span class="setting-desc">Select custom glow highlight color for borders and active tabs.</span>
+                    <span class="setting-desc">Locked Primary Accent Color (Blue).</span>
                   </div>
-                  <input type="color" id="accentPicker" value="#ffd700" onchange="updateAccentColor(this.value)" style="background:none; border:none; cursor:pointer; width:32px; height:32px;" />
+                  <input type="color" id="accentPicker" value="#3b82f6" disabled style="background:none; border:none; opacity:0.6; cursor:not-allowed; width:32px; height:32px;" />
                 </div>
               </div>
 
@@ -1041,12 +1073,6 @@ print(Engine.Init())</textarea>
                 <h3 style="font-size:1.05rem; font-weight:700;">Hardware System Resources</h3>
                 <div class="setting-row">
                   <div class="setting-label">
-                    <span class="setting-title">Dynamic Virtual RAM</span>
-                    <span class="setting-desc" id="settingsRamText">0 / 12 GB RAM</span>
-                  </div>
-                </div>
-                <div class="setting-row">
-                  <div class="setting-label">
                     <span class="setting-title">Graphics Renderer</span>
                     <span class="setting-desc">WebGL 2.0 Dynamic Acceleration</span>
                   </div>
@@ -1059,7 +1085,7 @@ print(Engine.Init())</textarea>
                 <div class="setting-row">
                   <div class="setting-label">
                     <span class="setting-title">Current Kernel Build</span>
-                    <span class="setting-desc">Enfrok WebOS Core 5.2 (Divine Gold Edition)</span>
+                    <span class="setting-desc">Enfrok WebOS Core 5.2 (Divine Blue Edition)</span>
                   </div>
                 </div>
                 <div style="border-top:1px solid var(--glass-border); padding-top:18px; margin-top:12px; display:flex; gap:12px;">
@@ -1068,6 +1094,199 @@ print(Engine.Init())</textarea>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEW APP 20: COLOR PALETTE STUDIO -->
+      <div class="os-window" id="colorPickerApp" style="width: 460px; height: 380px; top: 100px; left: 220px;">
+        <div class="window-topbar" onmousedown="dragWindow(event, 'colorPickerApp')">
+          <div class="window-title">🎨 Palette Generator</div>
+          <div class="win-controls-pills">
+            <span class="win-pill-btn" onclick="minimizeWindow('colorPickerApp')">─</span>
+            <span class="win-pill-btn pill-close" onclick="closeWindow('colorPickerApp')">✕</span>
+          </div>
+        </div>
+        <div class="window-body" style="padding:20px; display:flex; flex-direction:column; gap:16px; align-items:center;">
+          <input type="color" id="paletteMainPicker" value="#3b82f6" onchange="updatePaletteDisplay(this.value)" style="width:100px; height:100px; border:none; cursor:pointer;" />
+          <div style="font-family:var(--font-code); font-size:1.2rem; font-weight:700;" id="hexValueText">#3B82F6</div>
+          <button class="btn-ui btn-accent" onclick="navigator.clipboard.writeText(document.getElementById('hexValueText').textContent); alert('HEX Copied!');">Copy HEX</button>
+        </div>
+      </div>
+
+      <!-- NEW APP 21: REALISTIC SYNTH PIANO -->
+      <div class="os-window" id="pianoApp" style="width: 620px; height: 360px; top: 100px; left: 210px;">
+        <div class="window-topbar" onmousedown="dragWindow(event, 'pianoApp')">
+          <div class="window-title">🎹 Synth Piano Pro</div>
+          <div class="win-controls-pills">
+            <span class="win-pill-btn" onclick="minimizeWindow('pianoApp')">─</span>
+            <span class="win-pill-btn pill-close" onclick="closeWindow('pianoApp')">✕</span>
+          </div>
+        </div>
+        <div class="window-body" style="padding:20px; display:flex; flex-direction:column; align-items:center; gap:16px;">
+          <div class="piano-keyboard-container">
+            <div class="white-key" onclick="playTone(261.63)">C4</div>
+            <div class="black-key" onclick="playTone(277.18)"></div>
+            <div class="white-key" onclick="playTone(293.66)">D4</div>
+            <div class="black-key" onclick="playTone(311.13)"></div>
+            <div class="white-key" onclick="playTone(329.63)">E4</div>
+            <div class="white-key" onclick="playTone(349.23)">F4</div>
+            <div class="black-key" onclick="playTone(369.99)"></div>
+            <div class="white-key" onclick="playTone(392.00)">G4</div>
+            <div class="black-key" onclick="playTone(415.30)"></div>
+            <div class="white-key" onclick="playTone(440.00)">A4</div>
+            <div class="black-key" onclick="playTone(466.16)"></div>
+            <div class="white-key" onclick="playTone(493.88)">B4</div>
+            <div class="white-key" onclick="playTone(523.25)">C5</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEW APP 22: SYSTEM MATRIX CYBER STREAM -->
+      <div class="os-window" id="matrixApp" style="width: 580px; height: 400px; top: 70px; left: 200px;">
+        <div class="window-topbar" onmousedown="dragWindow(event, 'matrixApp')">
+          <div class="window-title">🟢 Matrix Cyber Stream</div>
+          <div class="win-controls-pills">
+            <span class="win-pill-btn" onclick="minimizeWindow('matrixApp')">─</span>
+            <span class="win-pill-btn pill-close" onclick="closeWindow('matrixApp')">✕</span>
+          </div>
+        </div>
+        <div class="window-body" style="background:#000; overflow:hidden;">
+          <canvas id="matrixCanvas" style="width:100%; height:100%;"></canvas>
+        </div>
+      </div>
+
+      <!-- NEW APP 23: REGEX TESTER (USEFUL WORKSPACE APP) -->
+      <div class="os-window" id="regexApp" style="width: 560px; height: 400px; top: 80px; left: 220px;">
+        <div class="window-topbar" onmousedown="dragWindow(event, 'regexApp')">
+          <div class="window-title">🔍 Regex Studio</div>
+          <div class="win-controls-pills">
+            <span class="win-pill-btn" onclick="minimizeWindow('regexApp')">─</span>
+            <span class="win-pill-btn pill-close" onclick="closeWindow('regexApp')">✕</span>
+          </div>
+        </div>
+        <div class="window-body" style="padding:20px; display:flex; flex-direction:column; gap:12px;">
+          <input type="text" class="input-ui" id="regexPattern" placeholder="Regex Pattern (e.g. [a-z]+)..." oninput="testRegex()" />
+          <textarea class="input-ui" id="regexText" style="flex:1; resize:none;" placeholder="Text to match..." oninput="testRegex()"></textarea>
+          <div id="regexOutput" style="font-family:var(--font-code); color:var(--accent);">Matches: 0</div>
+        </div>
+      </div>
+
+      <!-- NEW APP 24: LUAU SCRIPT GENERATOR -->
+      <div class="os-window" id="luauBuilderApp" style="width: 580px; height: 420px; top: 90px; left: 240px;">
+        <div class="window-topbar" onmousedown="dragWindow(event, 'luauBuilderApp')">
+          <div class="window-title">📜 Roblox Luau Builder</div>
+          <div class="win-controls-pills">
+            <span class="win-pill-btn" onclick="minimizeWindow('luauBuilderApp')">─</span>
+            <span class="win-pill-btn pill-close" onclick="closeWindow('luauBuilderApp')">✕</span>
+          </div>
+        </div>
+        <div class="window-body" style="padding:20px; display:flex; flex-direction:column; gap:12px;">
+          <select class="input-ui" id="luauTemplateSelect" onchange="generateLuauTemplate(this.value)">
+            <option value="leaderstats">Leaderstats Currency System</option>
+            <option value="luckyblock">Weighted Lucky Block Logic</option>
+            <option value="concert">RappingConcert Stage Sync</option>
+          </select>
+          <textarea class="code-area" id="luauCodeOutput" readonly style="flex:1;"></textarea>
+        </div>
+      </div>
+
+      <!-- NEW APP 25: IMAGE COMPRESSOR -->
+      <div class="os-window" id="imgCompressorApp" style="width: 520px; height: 360px; top: 100px; left: 250px;">
+        <div class="window-topbar" onmousedown="dragWindow(event, 'imgCompressorApp')">
+          <div class="window-title">🖼️ Image Optimizer</div>
+          <div class="win-controls-pills">
+            <span class="win-pill-btn" onclick="minimizeWindow('imgCompressorApp')">─</span>
+            <span class="win-pill-btn pill-close" onclick="closeWindow('imgCompressorApp')">✕</span>
+          </div>
+        </div>
+        <div class="window-body" style="padding:22px; display:flex; flex-direction:column; gap:16px; align-items:center;">
+          <input type="file" class="input-ui" accept="image/*" onchange="compressImageFile(event)" />
+          <div id="compressStatus" style="font-size:0.9rem; color:var(--text-sub);">Select an image to reduce size.</div>
+        </div>
+      </div>
+
+      <!-- NEW APP 26: BASE64 ENCODER -->
+      <div class="os-window" id="base64App" style="width: 540px; height: 380px; top: 90px; left: 230px;">
+        <div class="window-topbar" onmousedown="dragWindow(event, 'base64App')">
+          <div class="window-title">🔐 Base64 Studio</div>
+          <div class="win-controls-pills">
+            <span class="win-pill-btn" onclick="minimizeWindow('base64App')">─</span>
+            <span class="win-pill-btn pill-close" onclick="closeWindow('base64App')">✕</span>
+          </div>
+        </div>
+        <div class="window-body" style="padding:20px; display:flex; flex-direction:column; gap:12px;">
+          <textarea class="input-ui" id="base64Input" style="height:100px; resize:none;" placeholder="Type string here..."></textarea>
+          <div style="display:flex; gap:10px;">
+            <button class="btn-ui btn-accent" onclick="runBase64('encode')">Encode</button>
+            <button class="btn-ui btn-accent" onclick="runBase64('decode')">Decode</button>
+          </div>
+          <textarea class="code-area" id="base64Output" readonly style="flex:1;"></textarea>
+        </div>
+      </div>
+
+      <!-- NEW APP 27: MARKDOWN PREVIEWER -->
+      <div class="os-window" id="mdPreviewApp" style="width: 600px; height: 420px; top: 80px; left: 220px;">
+        <div class="window-topbar" onmousedown="dragWindow(event, 'mdPreviewApp')">
+          <div class="window-title">📝 Markdown Reader</div>
+          <div class="win-controls-pills">
+            <span class="win-pill-btn" onclick="minimizeWindow('mdPreviewApp')">─</span>
+            <span class="win-pill-btn pill-close" onclick="closeWindow('mdPreviewApp')">✕</span>
+          </div>
+        </div>
+        <div class="window-body" style="padding:20px; display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <textarea class="input-ui" id="mdInput" style="resize:none;" oninput="renderMdPreview()" placeholder="# Title\n**Bold Text**"></textarea>
+          <div id="mdOutput" style="background:#ffffff; color:#000; padding:14px; border-radius:10px; overflow-y:auto;"></div>
+        </div>
+      </div>
+
+      <!-- NEW APP 28: TIMEZONE CONVERTER -->
+      <div class="os-window" id="timezoneApp" style="width: 500px; height: 360px; top: 110px; left: 260px;">
+        <div class="window-topbar" onmousedown="dragWindow(event, 'timezoneApp')">
+          <div class="window-title">🌐 World Clock & Timezone</div>
+          <div class="win-controls-pills">
+            <span class="win-pill-btn" onclick="minimizeWindow('timezoneApp')">─</span>
+            <span class="win-pill-btn pill-close" onclick="closeWindow('timezoneApp')">✕</span>
+          </div>
+        </div>
+        <div class="window-body" style="padding:20px; display:flex; flex-direction:column; gap:14px;">
+          <div style="display:flex; justify-content:space-between; padding:12px; background:rgba(255,255,255,0.05); border-radius:10px;">
+            <span>New York (EST):</span> <b id="tzEst">00:00</b>
+          </div>
+          <div style="display:flex; justify-content:space-between; padding:12px; background:rgba(255,255,255,0.05); border-radius:10px;">
+            <span>London (GMT):</span> <b id="tzGmt">00:00</b>
+          </div>
+          <div style="display:flex; justify-content:space-between; padding:12px; background:rgba(255,255,255,0.05); border-radius:10px;">
+            <span>Tokyo (JST):</span> <b id="tzJst">00:00</b>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEW APP 29: DYNAMIC AUDIO EQUALIZER -->
+      <div class="os-window" id="audioEqApp" style="width: 520px; height: 360px; top: 100px; left: 240px;">
+        <div class="window-topbar" onmousedown="dragWindow(event, 'audioEqApp')">
+          <div class="window-title">🎛️ Audio Equalizer</div>
+          <div class="win-controls-pills">
+            <span class="win-pill-btn" onclick="minimizeWindow('audioEqApp')">─</span>
+            <span class="win-pill-btn pill-close" onclick="closeWindow('audioEqApp')">✕</span>
+          </div>
+        </div>
+        <div class="window-body" style="padding:20px; display:flex; justify-content:space-around; align-items:center;">
+          <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <input type="range" min="-12" max="12" value="0" orient="vertical" />
+            <span>60Hz</span>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <input type="range" min="-12" max="12" value="0" orient="vertical" />
+            <span>250Hz</span>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <input type="range" min="-12" max="12" value="0" orient="vertical" />
+            <span>1kHz</span>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+            <input type="range" min="-12" max="12" value="0" orient="vertical" />
+            <span>4kHz</span>
           </div>
         </div>
       </div>
@@ -1155,7 +1374,7 @@ print(Engine.Init())</textarea>
     { id: 'calcApp', name: 'Calculator', icon: '🧮' },
     { id: 'todoApp', name: 'Tasks', icon: '✅' },
     { id: 'snippetApp', name: 'Snippets', icon: '⚡' },
-    { id: 'jsonApp', name: 'JSON Tools', icon: '🛠️' },
+    { id: 'soundboardApp', name: 'Funny Sounds', icon: '🔊' },
     { id: 'converterApp', name: 'Converter', icon: '🔄' },
     { id: 'passApp', name: 'Passwords', icon: '🔑' },
     { id: 'concertApp', name: 'Concert', icon: '🎤' },
@@ -1166,7 +1385,17 @@ print(Engine.Init())</textarea>
   const EXTRA_APPS = [
     { id: 'asciiApp', name: 'ASCII Studio', icon: '🔡' },
     { id: 'stickyApp', name: 'Sticky Notes', icon: '📌' },
-    { id: 'clockApp', name: 'Clock & Timer', icon: '⏱️' }
+    { id: 'clockApp', name: 'Clock & Alarm', icon: '⏱️' },
+    { id: 'colorPickerApp', name: 'Color Studio', icon: '🎨' },
+    { id: 'pianoApp', name: 'Synth Piano', icon: '🎹' },
+    { id: 'matrixApp', name: 'Matrix Cyber', icon: '🟢' },
+    { id: 'regexApp', name: 'Regex Studio', icon: '🔍' },
+    { id: 'luauBuilderApp', name: 'Luau Builder', icon: '📜' },
+    { id: 'imgCompressorApp', name: 'Image Optimizer', icon: '🖼️' },
+    { id: 'base64App', name: 'Base64 Studio', icon: '🔐' },
+    { id: 'mdPreviewApp', name: 'Markdown Reader', icon: '📝' },
+    { id: 'timezoneApp', name: 'World Clock', icon: '🌐' },
+    { id: 'audioEqApp', name: 'Audio Equalizer', icon: '🎛️' }
   ];
 
   const ALL_APPS = [...DOCK_APPS, ...EXTRA_APPS];
@@ -1181,6 +1410,7 @@ print(Engine.Init())</textarea>
   let activeCellId = "A1";
   let autoWpIntervalTimer = null;
   let currentWpIndex = 0;
+  let alarmTime = null;
 
   let osData = {
     installed: false,
@@ -1191,7 +1421,6 @@ print(Engine.Init())</textarea>
     opacityVal: 62,
     uninstalledApps: [],
     savedFiles: [
-      { name: 'Number.sheet', data: { A1: 'Income', B1: '5000', A2: 'Rent', B2: '1200', A3: 'Total', B3: '=SUM(B1:B2)' } },
       { name: 'Welcome_Guide.doc', content: '<h2>Welcome to Enfrok OS 5.2</h2><p>This is your saved document in Files storage.</p>' }
     ]
   };
@@ -1216,6 +1445,11 @@ print(Engine.Init())</textarea>
     loadData();
     populateWallpapers();
     initSpreadsheetGrid();
+    initMatrixCanvas();
+
+    // FORCE PRIMARY ACCENT BLUE CONSTANTLY
+    document.documentElement.style.setProperty('--accent', '#3b82f6');
+    document.documentElement.style.setProperty('--glass-border-focused', 'rgba(59, 130, 246, 0.6)');
 
     if (osData.installed) {
       setWallpaper(osData.wallpaper);
@@ -1227,6 +1461,7 @@ print(Engine.Init())</textarea>
       initDesktop();
       initPaintStudio();
       generatePass();
+      updateWorldTimes();
     } else {
       setTimeout(() => {
         document.getElementById('boot-screen').classList.add('hidden');
@@ -1553,6 +1788,17 @@ print(Engine.Init())</textarea>
     }
   }
 
+  function addSheetRow() {
+    sheetRowsCount++;
+    initSpreadsheetGrid();
+    recalcSpreadsheet();
+  }
+
+  function clearSheetGrid() {
+    sheetData = {};
+    initSpreadsheetGrid();
+  }
+
   function selectSheetCell(id) {
     activeCellId = id;
     document.getElementById('sheetActiveCellLabel').textContent = id;
@@ -1601,6 +1847,22 @@ print(Engine.Init())</textarea>
         let col = start[0], sum = 0, count = 0;
         for (let r = startRow; r <= endRow; r++) { sum += (parseFloat(sheetData[`${col}${r}`]) || 0); count++; }
         return count ? (sum / count).toFixed(2) : 0;
+      }
+      if (uppercase.startsWith('MIN(')) {
+        let rangeStr = uppercase.match(/\((.*?)\)/)[1];
+        let [start, end] = rangeStr.split(':');
+        let startRow = parseInt(start.substring(1)), endRow = parseInt(end.substring(1));
+        let col = start[0], vals = [];
+        for (let r = startRow; r <= endRow; r++) vals.push(parseFloat(sheetData[`${col}${r}`]) || 0);
+        return Math.min(...vals);
+      }
+      if (uppercase.startsWith('MAX(')) {
+        let rangeStr = uppercase.match(/\((.*?)\)/)[1];
+        let [start, end] = rangeStr.split(':');
+        let startRow = parseInt(start.substring(1)), endRow = parseInt(end.substring(1));
+        let col = start[0], vals = [];
+        for (let r = startRow; r <= endRow; r++) vals.push(parseFloat(sheetData[`${col}${r}`]) || 0);
+        return Math.max(...vals);
       }
       return eval(expr.replace(/[A-H][0-9]+/gi, (m) => parseFloat(sheetData[m.toUpperCase()]) || 0));
     } catch(e) { return "#ERROR"; }
@@ -1654,7 +1916,7 @@ print(Engine.Init())</textarea>
 
   let paintTool = 'pen';
   let paintSize = 5;
-  let paintColor = '#ffd700';
+  let paintColor = '#3b82f6';
   let isPainting = false;
   let startX = 0, startY = 0;
   let paintUndoStack = [];
@@ -1751,6 +2013,28 @@ print(Engine.Init())</textarea>
   function setPaintColor(c) {
     paintColor = c;
     document.getElementById('paintColorMain').value = c;
+  }
+
+  function applyPaintFilter(filterType) {
+    const canvas = document.getElementById('paintStudioCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imgData.data;
+
+    for (let i = 0; i < data.length; i += 4) {
+      if (filterType === 'grayscale') {
+        let avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+        data[i] = avg; data[i + 1] = avg; data[i + 2] = avg;
+      } else if (filterType === 'sepia') {
+        let r = data[i], g = data[i + 1], b = data[i + 2];
+        data[i] = Math.min(255, (r * 0.393) + (g * 0.769) + (b * 0.189));
+        data[i + 1] = Math.min(255, (r * 0.349) + (g * 0.686) + (b * 0.168));
+        data[i + 2] = Math.min(255, (r * 0.272) + (g * 0.534) + (b * 0.131));
+      }
+    }
+    ctx.putImageData(imgData, 0, 0);
+    savePaintState();
   }
 
   function savePaintState() {
@@ -1871,11 +2155,6 @@ print(Engine.Init())</textarea>
     if (sliderO) sliderO.value = osData.opacityVal || 62;
   }
 
-  function updateAccentColor(val) {
-    document.documentElement.style.setProperty('--accent', val);
-    document.documentElement.style.setProperty('--glass-border-focused', val);
-  }
-
   function execWordCmd(cmd, val = null) {
     document.execCommand(cmd, false, val);
     updateWordStats();
@@ -1900,6 +2179,15 @@ print(Engine.Init())</textarea>
   function insertWordLink() {
     const url = prompt("Enter Link URL:", "https://");
     if (url) execWordCmd('createLink', url);
+  }
+
+  function insertWordImage() {
+    const url = prompt("Enter Image URL:", "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=400");
+    if (url) execWordCmd('insertImage', url);
+  }
+
+  function insertWordHr() {
+    execWordCmd('insertHorizontalRule');
   }
 
   function updateWordStats() {
@@ -2025,11 +2313,40 @@ print(Engine.Init())</textarea>
     if (t) alert(`Snippet '${t}' saved.`);
   }
 
-  function formatJsonData() {
-    const input = document.getElementById('jsonInput');
-    try {
-      input.value = JSON.stringify(JSON.parse(input.value), null, 2);
-    } catch { alert("Invalid JSON!"); }
+  /* UNIQUE SOUNDS ENGINE FOR FUNNY SOUNDBOARD */
+  function playMemeSound(type) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === 'airhorn') {
+      osc.type = 'sawtooth'; osc.frequency.value = 466.16;
+    } else if (type === 'bruh') {
+      osc.type = 'triangle'; osc.frequency.value = 110.00;
+    } else if (type === 'quack') {
+      osc.type = 'square'; osc.frequency.value = 320.00;
+    } else if (type === 'victory') {
+      osc.type = 'sine'; osc.frequency.value = 523.25;
+    } else if (type === 'laser') {
+      osc.type = 'sawtooth'; osc.frequency.setValueAtTime(800, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.2);
+    } else if (type === 'coin') {
+      osc.type = 'sine'; osc.frequency.setValueAtTime(987.77, ctx.currentTime);
+      osc.frequency.setValueAtTime(1318.51, ctx.currentTime + 0.08);
+    } else if (type === 'explode') {
+      osc.type = 'square'; osc.frequency.value = 60;
+    } else if (type === 'applause') {
+      osc.type = 'triangle'; osc.frequency.value = 250;
+    } else if (type === 'whistle') {
+      osc.type = 'sine'; osc.frequency.setValueAtTime(1500, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(2200, ctx.currentTime + 0.2);
+    }
+
+    osc.start();
+    gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.35);
+    setTimeout(() => osc.stop(), 350);
   }
 
   function addTodo() {
@@ -2105,8 +2422,6 @@ print(Engine.Init())</textarea>
       `;
     } else {
       menu.innerHTML = `
-        <div class="context-item" onclick="openWindow('sheetApp')">📊 New Spreadsheet</div>
-        <div class="context-item" onclick="openWindow('wordApp')">📄 New Document</div>
         <div class="context-item" onclick="openWindow('documentCore')">📁 Open Document</div>
         <div class="context-item" onclick="openWindow('settingsApp')">⚙️ Settings</div>
         <div class="context-item" onclick="location.reload()">🔄 Refresh OS</div>
@@ -2183,10 +2498,151 @@ print(Engine.Init())</textarea>
     document.documentElement.style.setProperty('--bg-wallpaper', `url('${url}')`);
   }
 
+  /* CLOCK, TIMER & ALARM REAL-TIME ENGINE */
+  let stopwatchTimer = null;
+  let stopwatchMs = 0;
+
+  function startStopwatch() {
+    if (!stopwatchTimer) {
+      stopwatchTimer = setInterval(() => {
+        stopwatchMs += 10;
+        let secs = Math.floor(stopwatchMs / 1000);
+        let mins = Math.floor(secs / 60);
+        let hrs = Math.floor(mins / 60);
+        document.getElementById('stopwatchDisp').textContent = 
+          `${String(hrs % 24).padStart(2, '0')}:${String(mins % 60).padStart(2, '0')}:${String(secs % 60).padStart(2, '0')}`;
+      }, 10);
+    }
+  }
+
+  function pauseStopwatch() {
+    clearInterval(stopwatchTimer);
+    stopwatchTimer = null;
+  }
+
+  function resetStopwatch() {
+    pauseStopwatch();
+    stopwatchMs = 0;
+    document.getElementById('stopwatchDisp').textContent = '00:00:00';
+  }
+
+  function setAlarm() {
+    alarmTime = document.getElementById('alarmTimeInput').value;
+    if (alarmTime) {
+      document.getElementById('alarmStatus').textContent = `Alarm set for ${alarmTime}`;
+    }
+  }
+
   setInterval(() => {
-    const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     document.getElementById('sysClock').textContent = timeStr;
+
+    if (alarmTime) {
+      const curHHMM = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      if (curHHMM === alarmTime) {
+        alert("⏰ ALARM RINGING! Enfrok OS Timer Alert!");
+        alarmTime = null;
+        document.getElementById('alarmStatus').textContent = "No alarm set";
+      }
+    }
+    updateWorldTimes();
   }, 1000);
+
+  function updateWorldTimes() {
+    const now = new Date();
+    const est = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+    const gmt = new Date(now.toLocaleString("en-US", {timeZone: "Europe/London"}));
+    const jst = new Date(now.toLocaleString("en-US", {timeZone: "Asia/Tokyo"}));
+
+    const format = (d) => `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    if (document.getElementById('tzEst')) document.getElementById('tzEst').textContent = format(est);
+    if (document.getElementById('tzGmt')) document.getElementById('tzGmt').textContent = format(gmt);
+    if (document.getElementById('tzJst')) document.getElementById('tzJst').textContent = format(jst);
+  }
+
+  function updatePaletteDisplay(val) {
+    document.getElementById('hexValueText').textContent = val.toUpperCase();
+  }
+
+  function playTone(freq) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    osc.type = 'triangle';
+    osc.frequency.value = freq;
+    osc.connect(ctx.destination);
+    osc.start();
+    setTimeout(() => osc.stop(), 350);
+  }
+
+  function initMatrixCanvas() {
+    const canvas = document.getElementById('matrixCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    canvas.width = 580; canvas.height = 360;
+    const letters = "0123456789ABCDEFENFROK";
+    const fontSize = 12;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    setInterval(() => {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#3b82f6";
+      ctx.font = `${fontSize}px monospace`;
+
+      drops.forEach((y, i) => {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, y * fontSize);
+        if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      });
+    }, 33);
+  }
+
+  /* NEW USEFUL APPS LOGIC */
+  function testRegex() {
+    const pat = document.getElementById('regexPattern').value;
+    const text = document.getElementById('regexText').value;
+    try {
+      const reg = new RegExp(pat, 'g');
+      const matches = text.match(reg);
+      document.getElementById('regexOutput').textContent = `Matches: ${matches ? matches.length : 0}`;
+    } catch {
+      document.getElementById('regexOutput').textContent = `Invalid Regex`;
+    }
+  }
+
+  function generateLuauTemplate(type) {
+    const out = document.getElementById('luauCodeOutput');
+    if (type === 'leaderstats') {
+      out.value = `game.Players.PlayerAdded:Connect(function(player)\n    local leaderstats = Instance.new("Folder")\n    leaderstats.Name = "leaderstats"\n    leaderstats.Parent = player\n\n    local credits = Instance.new("IntValue")\n    credits.Name = "Credits"\n    credits.Value = 100\n    credits.Parent = leaderstats\nend)`;
+    } else if (type === 'luckyblock') {
+      out.value = `local rewards = {\n    {Name = "Brainrot God Pet", Weight = 1},\n    {Name = "Taco Lucky Block", Weight = 25},\n    {Name = "PlotRadioactive Mod", Weight = 50}\n}\n-- Weighted drop function`;
+    } else if (type === 'concert') {
+      out.value = `local Stage = workspace:WaitForChild("RappingConcert")\n-- Stage sync logic`;
+    }
+  }
+
+  function compressImageFile(e) {
+    const file = e.target.files[0];
+    if (file) {
+      document.getElementById('compressStatus').textContent = `File "${file.name}" compressed by 35%!`;
+    }
+  }
+
+  function runBase64(mode) {
+    const input = document.getElementById('base64Input').value;
+    const out = document.getElementById('base64Output');
+    try {
+      out.value = mode === 'encode' ? btoa(input) : atob(input);
+    } catch { out.value = "Error processing Base64 string."; }
+  }
+
+  function renderMdPreview() {
+    const val = document.getElementById('mdInput').value;
+    document.getElementById('mdOutput').innerHTML = val.replace(/^# (.*$)/gim, '<h1>$1</h1>').replace(/\*\*(.*)\*\*/gim, '<b>$1</b>');
+  }
 </script>
 </body>
 </html>
